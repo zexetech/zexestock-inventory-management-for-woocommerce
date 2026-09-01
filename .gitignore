@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+admin/build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Test / coverage output
+coverage/
+.phpunit.result.cache
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Claude Code local runtime
+.claude/settings.local.json

@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"jsx": "react",
+		"strict": true,
+		"noEmit": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+		"lib": ["esnext", "dom"],
+		"paths": {
+			"@/*": ["./admin/src/*"]
+		}
+	},
+	"include": [
+		"admin/src/**/*.ts",
+		"admin/src/**/*.tsx"
+	],
+	"exclude": [
+		"node_modules",
+		"admin/build",
+		"admin/src/**/*.test.ts",
+		"admin/src/**/*.test.tsx",
+		"admin/src/test/**"
+	]
+}

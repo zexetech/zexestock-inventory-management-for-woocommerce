@@ -1,0 +1,55 @@
+.zexst-field-wrapper {
+	display: inline-flex;
+	align-items: stretch;
+	border: 1px solid #8c8f94;
+	border-radius: 3px;
+	background: #fff;
+	overflow: hidden;
+	vertical-align: middle;
+	width: 50%; 
+}
+
+.zexst-field-prefix {
+	display: flex;
+	align-items: center;
+	padding: 0 7px;
+	background: #f6f7f7;
+	flex-shrink: 0;
+}
+
+.zexst-field-icon {
+	width: 16px;
+	height: 16px;
+	display: block;
+	flex-shrink: 0;
+}
+
+.zexst-field-divider {
+	display: inline-block;
+	width: 1px;
+	height: 18px;
+	background: #c3c4c7;
+	margin-left: 7px;
+}
+
+.zexst-field-wrapper > input[type="text"],
+.zexst-field-wrapper > input[type="number"] {
+	border: none !important;
+	box-shadow: none !important;
+	outline: none;
+	padding-left: 8px !important;
+	margin: 0;
+	width: 100% !important;
+	max-width: none !important;
+	flex: 1;
+}
+
+.zexst-field-wrapper:focus-within {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+}
+
+.form-row .zexst-field-wrapper {
+	width: 100%;
+	display: flex;
+}

@@ -1,0 +1,311 @@
+.zexst-app {
+	--background: 0 0% 100%;
+	--foreground: 222 47% 11.2%;
+
+	--card: 0 0% 100%;
+	--card-foreground: 222 47% 11.2%;
+
+	--popover: 0 0% 100%;
+	--popover-foreground: 222 47% 11.2%;
+
+	--primary: 251 67% 55%;
+	--primary-foreground: 0 0% 100%;
+
+	--secondary: 210 40% 96.1%;
+	--secondary-foreground: 222 47% 11.2%;
+
+	--muted: 210 40% 98%;
+	--muted-foreground: 215 16% 47%;
+
+	--accent: 210 40% 98%;
+	--accent-foreground: 222 47% 11.2%;
+
+	--destructive: 0 84.2% 60.2%;
+	--destructive-foreground: 210 40% 98%;
+
+	--border: 214 32% 91%;
+	--input: 214 32% 91%;
+	--ring: 221 83% 53%;
+
+	--radius: 0.5rem;
+
+	--status-in-stock: 142 76% 36%;
+	--status-in-stock-bg: 142 76% 93%;
+	--status-in-stock-fg: 142 76% 36%;
+	--status-in-stock-text: 142 76% 36%;
+
+	--status-low-stock: 38 92% 50%;
+	--status-low-stock-bg: 48 96% 89%;
+	--status-low-stock-fg: 21 77% 28%;
+	--status-low-stock-text: 26 86% 35%;
+
+	--status-out-of-stock: 0 84% 60%;
+	--status-out-of-stock-bg: 0 93% 94%;
+	--status-out-of-stock-fg: 0 62% 30%;
+	--status-out-of-stock-text: 0 72% 40%;
+
+	--type-simple-bg: 215 16% 93%;
+	--type-simple-fg: 215 16% 40%;
+	--type-variable-bg: 263 60% 94%;
+	--type-variable-fg: 263 60% 42%;
+	--type-variation-bg: 270 50% 94%;
+	--type-variation-fg: 270 50% 42%;
+	--type-grouped-bg: 221 83% 93%;
+	--type-grouped-fg: 221 65% 40%;
+	--type-external-bg: 25 95% 92%;
+	--type-external-fg: 21 90% 38%;
+	--type-virtual-bg: 174 62% 90%;
+	--type-virtual-fg: 175 77% 26%;
+	--type-downloadable-bg: 142 64% 91%;
+	--type-downloadable-fg: 142 72% 29%;
+
+	--info: 221 83% 53%;
+	--info-bg: 214 100% 97%;
+	--info-border: 214 96% 85%;
+	--info-fg: 221 83% 25%;
+	--info-text: 221 83% 45%;
+
+	--warning: 38 92% 50%;
+	--warning-bg: 48 100% 96%;
+	--warning-border: 44 97% 80%;
+	--warning-fg: 21 83% 25%;
+
+	--row-child-bg: 221 60% 99%;
+	--row-child-bg-hover: 221 60% 97%;
+
+	--font-sans: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, sans-serif;
+}
+
+.zexst-app.dark {
+	--background: 222.2 84% 4.9%;
+	--foreground: 210 40% 98%;
+
+	--card: 222.2 84% 4.9%;
+	--card-foreground: 210 40% 98%;
+
+	--popover: 222.2 84% 4.9%;
+	--popover-foreground: 210 40% 98%;
+
+	--primary: 251 67% 55%;
+	--primary-foreground: 0 0% 100%;
+
+	--secondary: 217.2 32.6% 17.5%;
+	--secondary-foreground: 210 40% 98%;
+
+	--muted: 217.2 32.6% 17.5%;
+	--muted-foreground: 215 20.2% 65.1%;
+
+	--accent: 217.2 32.6% 17.5%;
+	--accent-foreground: 210 40% 98%;
+
+	--destructive: 0 62.8% 30.6%;
+	--destructive-foreground: 210 40% 98%;
+
+	--border: 217.2 32.6% 17.5%;
+	--input: 217.2 32.6% 17.5%;
+	--ring: 221 83% 53%;
+
+	--status-in-stock: 142 76% 36%;
+	--status-in-stock-bg: 142 61% 13%;
+	--status-in-stock-fg: 142 76% 73%;
+	--status-in-stock-text: 142 76% 73%;
+
+	--status-low-stock: 38 92% 50%;
+	--status-low-stock-bg: 21 60% 13%;
+	--status-low-stock-fg: 38 80% 72%;
+	--status-low-stock-text: 38 92% 50%;
+
+	--status-out-of-stock: 0 84% 60%;
+	--status-out-of-stock-bg: 0 62% 13%;
+	--status-out-of-stock-fg: 0 76% 72%;
+	--status-out-of-stock-text: 0 91% 68%;
+
+	--type-simple-bg: 215 27% 20%;
+	--type-simple-fg: 215 16% 75%;
+	--type-variable-bg: 263 50% 20%;
+	--type-variable-fg: 263 55% 78%;
+	--type-variation-bg: 270 40% 20%;
+	--type-variation-fg: 270 50% 78%;
+	--type-grouped-bg: 221 55% 20%;
+	--type-grouped-fg: 221 65% 78%;
+	--type-external-bg: 21 60% 18%;
+	--type-external-fg: 25 90% 75%;
+	--type-virtual-bg: 175 55% 15%;
+	--type-virtual-fg: 174 62% 72%;
+	--type-downloadable-bg: 142 55% 15%;
+	--type-downloadable-fg: 142 64% 72%;
+
+	--info: 221 83% 53%;
+	--info-bg: 221 70% 13%;
+	--info-border: 221 60% 30%;
+	--info-fg: 221 70% 80%;
+	--info-text: 221 65% 65%;
+
+	--warning: 38 92% 50%;
+	--warning-bg: 21 60% 12%;
+	--warning-border: 21 60% 30%;
+	--warning-fg: 38 80% 72%;
+
+	--row-child-bg: 221 60% 11%;
+	--row-child-bg-hover: 221 60% 15%;
+}
+
+.zexst-app {
+	font-family: var(--font-sans);
+	color: hsl(var(--foreground));
+	background-color: hsl(var(--background));
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
+}
+
+.zexst-app *,
+.zexst-app *::before,
+.zexst-app *::after {
+	box-sizing: inherit;
+	border-color: hsl(var(--border));
+
+	border-style: solid;
+	border-width: 0;
+}
+
+.zexst-app :focus-visible {
+	outline: 2px solid hsl(var(--ring));
+	outline-offset: 2px;
+}
+
+.zexst-app button {
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	cursor: pointer;
+	text-align: left;
+	line-height: inherit;
+}
+
+.zexst-app input:not([type="checkbox"]):not([type="radio"]),
+.zexst-app select,
+.zexst-app textarea {
+	font: inherit;
+	color: inherit;
+	background-color: transparent;
+	box-shadow: none;
+	margin: 0;
+}
+
+.zexst-app.z-\[100001\] {
+	z-index: 100001 !important;
+}
+
+.zexst-app.z-50 {
+	z-index: 50 !important;
+}
+
+.zexst-app.z-40 {
+	z-index: 40 !important;
+}
+
+.zexst-app.z-30 {
+	z-index: 30 !important;
+}
+
+.zexst-app.fixed {
+	position: fixed !important;
+}
+
+.zexst-app.inset-0 {
+	inset: 0 !important;
+}
+
+.zexst-app.left-\[50\%\] {
+	left: 50% !important;
+}
+
+.zexst-app.top-\[50\%\] {
+	top: 50% !important;
+}
+
+.zexst-app.bg-black\/80 {
+	background-color: rgb(0 0 0 / 0.8) !important;
+}
+
+.zexst-app.bg-background {
+	background-color: hsl(var(--background)) !important;
+}
+
+.zexst-app.bg-popover {
+	background-color: hsl(var(--popover)) !important;
+}
+
+.zexst-app.text-popover-foreground {
+	color: hsl(var(--popover-foreground)) !important;
+}
+
+.zexst-app.rounded-md {
+	border-radius: 0.375rem !important;
+}
+
+.zexst-app.border {
+	border-width: 1px !important;
+	border-style: solid !important;
+	border-color: hsl(var(--border)) !important;
+}
+
+.zexst-app.overflow-hidden {
+	overflow: hidden !important;
+}
+
+.zexst-app.p-1 {
+	padding: 0.25rem !important;
+}
+
+.zexst-app.p-4 {
+	padding: 1rem !important;
+}
+
+.zexst-app.min-w-\[8rem\] {
+	min-width: 8rem !important;
+}
+
+.zexst-app.w-48 {
+	width: 12rem !important;
+}
+
+.zexst-app.w-52 {
+	width: 13rem !important;
+}
+
+.zexst-app.w-56 {
+	width: 14rem !important;
+}
+
+.zexst-app.w-64 {
+	width: 16rem !important;
+}
+
+.zexst-app.w-72 {
+	width: 18rem !important;
+}
+
+.zexst-app.shadow-md {
+	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+}
+
+.zexst-app.shadow-lg {
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+}
+
+.zexst-app tr[data-state="selected"] > td {
+	background-color: hsl(var(--primary) / 0.06) !important;
+}
+
+.zexst-app [role="switch"] > span[data-state="checked"] {
+	transform: translateX(1rem) !important;
+}
+
+.zexst-app [role="switch"] > span[data-state="unchecked"] {
+	transform: translateX(0) !important;
+}

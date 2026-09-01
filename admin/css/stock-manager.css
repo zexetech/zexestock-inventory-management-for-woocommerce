@@ -1,0 +1,43 @@
+.zexst-wrap {
+	margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+	#wpwrap #wpcontent {
+		padding-left: 0;
+	}
+}
+
+.zexst-widget-list {
+	margin: 0 0 10px;
+	padding: 0;
+	list-style: none;
+}
+
+.zexst-widget-list li {
+	padding: 3px 0;
+	border-bottom: 1px solid #f0f0f0;
+	font-size: 13px;
+}
+
+.zexst-widget-list li:last-child {
+	border-bottom: none;
+}
+
+.zexst-widget-low-stock {
+	color: #92400e;
+}
+
+.zexst-widget-out-of-stock {
+	color: #9b1c1c;
+	font-weight: 600;
+}
+
+.zexst-widget-sku {
+	color: #6b7280;
+	font-size: 11px;
+}
+
+.zexst-widget-summary {
+	margin-bottom: 8px;
+}
