@@ -1,6 +1,6 @@
 === ZexeStock | Inventory Management for WooCommerce ===
 Contributors: aless1o
-Tags: woocommerce inventory management, Woocommerce Stock Management, Inventory
+Tags: woocommerce inventory management, woocommerce inventory tracking, woocommerce inventory manager, manage inventory woocommerce, woocommerce stock management, wordpress stock management, variable products, hpos, woocommerce product management
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.0
@@ -8,23 +8,25 @@ Stable tag: 1.0.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Fast WooCommerce inventory management for editing stock, products, and variations from one powerful screen.
+WooCommerce inventory management made fast — edit stock, prices, and variations inline across 10,000+ products, no page reloads.
 
 == Description ==
 
 Stop opening hundreds of WooCommerce product pages just to adjust stock.
 
-ZexeStock is a modern inventory management plugin for WooCommerce that lets you search, edit, and manage thousands of products from one fast, dedicated interface — instead of clicking into a separate edit screen for every single one.
+ZexeStock is a fast WooCommerce inventory management plugin that lets you search, edit, and track stock across thousands of products from one screen — instead of clicking into a separate edit page for every single one.
 
-Whether you're running a small online shop or a warehouse with 50,000+ products, ZexeStock makes stock updates dramatically faster with inline editing, fast server-side search, variable product support, PDF exports, and analytics — all from a single screen.
+Inline stock and price editing, server-side search across 10,000+ products, and full variable product support come standard in the free version — no trial, no credit card required.
 
-Built for busy store owners, warehouse teams, and inventory managers, ZexeStock removes the friction from everyday stock management so you spend less time clicking through product pages and more time running your business.
+Whether you're running a small online shop or a warehouse with 50,000+ products, ZexeStock makes everyday stock management dramatically faster, with color-coded stock visibility, PDF exports, and a built-in analytics widget alongside its core editing tools.
 
-= A Purpose-Built Stock Workspace =
+Built for busy store owners, warehouse teams, and inventory managers, ZexeStock removes the friction from managing inventory in WooCommerce so you spend less time clicking through product pages and more time running your business.
+
+= A Purpose-Built Workspace for WooCommerce Inventory Management =
 
 Managing inventory inside WooCommerce's default product editor gets frustrating fast as your catalogue grows — one product per page, one save per change.
 
-ZexeStock replaces that with a purpose-built stock management workspace that is:
+ZexeStock replaces that with a purpose-built inventory management workspace that is:
 
 * Faster than editing products individually
 * Built for large WooCommerce stores, with server-side pagination that keeps thousands of products fast to search and browse
@@ -32,18 +34,18 @@ ZexeStock replaces that with a purpose-built stock management workspace that is:
 * Safe, with optimistic concurrency protection against conflicting edits
 * Built on native WooCommerce CRUD methods, so it stays compatible with core and HPOS
 
-Instead of jumping between dozens of product pages, your entire inventory is searchable and editable from one screen.
+Instead of jumping between dozens of product pages, your entire inventory is searchable and editable from one screen — this is what WooCommerce inventory tracking should feel like.
 
 = Perfect For =
 
-* WooCommerce stores of any size
+* WooCommerce stores of any size looking to manage inventory more efficiently
 * Warehouse and fulfillment teams
 * Retail businesses managing their own online catalogue
 * Wholesalers and manufacturers
 * Inventory and operations managers
 * Anyone tired of editing stock one product at a time
 
-= Why ZexeStock? =
+= Why ZexeStock for WooCommerce Inventory Management? =
 
 * **Adjust stock for one product** — Default WooCommerce: open the product, edit, save, reload. ZexeStock: inline, in the table, no page reload.
 * **Search across the catalogue** — Default WooCommerce: basic list search. ZexeStock: fast server-side search over 10,000+ products.
@@ -54,7 +56,7 @@ Instead of jumping between dozens of product pages, your entire inventory is sea
 
 = Free and Powerful Out of the Box =
 
-ZexeStock's free version includes fast stock editing, searchable inventory, variable product support, PDF export, and more — no trial, no credit card required. When your inventory operation grows, ZexeStock Pro adds advanced tools for bulk editing, spreadsheet mode, a full audit log, advanced analytics, CSV/XLSX exports, stockout predictions, and more.
+ZexeStock's free version is a complete WooCommerce inventory management plugin on its own: fast stock editing, searchable inventory, variable product support, PDF export, and more — no trial, no credit card required. When your inventory operation grows, ZexeStock Pro adds advanced tools for bulk editing, spreadsheet mode, a full audit log, advanced analytics, CSV/XLSX exports, stockout predictions, and more.
 
 = Free Features =
 
@@ -67,7 +69,7 @@ ZexeStock's free version includes fast stock editing, searchable inventory, vari
 * **Variable product support** — expand a parent row inline to edit every variation without leaving the table
 * **Server-side pagination** — only the products you're viewing are loaded, so performance holds up on large catalogues
 
-**Better Inventory Visibility**
+**Inventory Tracking & Visibility**
 
 * **Color-coded stock status indicators** — in-stock, low-stock, out-of-stock at a glance
 * **Per-product low-stock threshold override** — set a custom threshold per product
@@ -84,7 +86,9 @@ ZexeStock's free version includes fast stock editing, searchable inventory, vari
 
 = Ready to Manage Inventory at Scale? =
 
-ZexeStock Pro turns the same fast stock management interface into a complete inventory workspace for stores that need bulk editing, spreadsheet workflows, advanced reporting, and deeper inventory insights:
+ZexeStock Pro turns the same fast stock management interface into a complete inventory workspace for stores that need bulk editing, spreadsheet workflows, advanced reporting, and deeper inventory insights.
+
+Upgrade and see plans: https://zexelabs.com/zexestock/pricing
 
 **Save Hours Every Week**
 
@@ -131,6 +135,10 @@ To build from source: `npm install && npm run build`.
 
 WordPress 6.4+, WooCommerce 6.4+, and PHP 8.0+.
 
+= Is ZexeStock a WooCommerce inventory management plugin? =
+
+Yes. ZexeStock is a WooCommerce inventory management plugin designed to make stock, price, and product data management faster across large catalogues. The free version includes searchable inventory, inline stock and price editing, variable product support, stock visibility, PDF export, and more. ZexeStock Pro adds bulk editing, spreadsheet mode, audit logs, advanced analytics, and CSV/XLSX export.
+
 = What can I do with the free version? =
 
 A lot. You get a searchable, paginated stock table for 10,000+ products, inline stock adjustments, quick +/− buttons, inline price and product data editing (regular price, sale price, purchase price, barcode, supplier SKU), full variable product support, color-coded stock status, per-product low-stock thresholds, a basic analytics widget, PDF export, negative stock prevention, optimistic concurrency control, role-based access, and HPOS compatibility — no trial, no credit card required. When you need more, Pro adds bulk editing, a full audit log, spreadsheet mode, advanced analytics, and more.
@@ -139,7 +147,11 @@ A lot. You get a searchable, paginated stock table for 10,000+ products, inline 
 
 Yes. Use the quick +/− buttons for one-click increments, or type a value directly into a product's stock cell and click Apply — no separate edit screen needed.
 
-= Can I manage thousands of WooCommerce products? =
+= How many products can I edit at once? =
+
+In the free version, you edit one product row at a time — inline, with no page reload, and fast enough thanks to server-side search and pagination that stay responsive even with 10,000+ products. If you need to apply the same change to many products in a single action, ZexeStock Pro adds bulk selection, a bulk stock/price bar, and keyboard-driven spreadsheet mode for editing WooCommerce catalogs at scale (Pro).
+
+= Can I manage inventory for thousands of WooCommerce products? =
 
 Yes. ZexeStock was designed for large product catalogues. Server-side pagination means only the products you're currently viewing are loaded, keeping the interface fast even with 10,000+ products.
 
@@ -182,6 +194,10 @@ Yes. The plugin uses WooCommerce CRUD methods (`wc_update_product_stock()`, `$pr
 = What happens if two people adjust the same product at the same time? =
 
 The plugin uses optimistic concurrency control. If stock has changed between when you loaded the page and when you clicked Apply, the adjustment is rejected and the displayed stock is updated so you can review before retrying.
+
+= What if I make a mistake while adjusting stock? =
+
+In the free version, double-check the value before clicking Apply — optimistic concurrency control stops two people from silently overwriting each other's changes, but there's no built-in undo for an individual edit yet. ZexeStock Pro adds one-click undo for a single adjustment or an entire bulk batch, plus a full audit log of every stock, price, and SKU change (Pro).
 
 = Where are the audit log entries stored? =
 
