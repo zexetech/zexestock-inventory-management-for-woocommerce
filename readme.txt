@@ -12,6 +12,8 @@ WooCommerce inventory management made fast — edit stock, prices, and variation
 
 == Description ==
 
+📦 The Fastest Way to Manage WooCommerce Stock
+
 Stop opening hundreds of WooCommerce product pages just to adjust stock.
 
 ZexeStock is a fast WooCommerce inventory management plugin that lets you search, edit, and track stock across thousands of products from one screen — instead of clicking into a separate edit page for every single one.
@@ -22,105 +24,100 @@ Whether you're running a small online shop or a warehouse with 50,000+ products,
 
 Built for busy store owners, warehouse teams, and inventory managers, ZexeStock removes the friction from managing inventory in WooCommerce so you spend less time clicking through product pages and more time running your business.
 
-= A Purpose-Built Workspace for WooCommerce Inventory Management =
+= 🚀 A Purpose-Built Workspace for WooCommerce Inventory Management =
 
 Managing inventory inside WooCommerce's default product editor gets frustrating fast as your catalogue grows — one product per page, one save per change.
 
 ZexeStock replaces that with a purpose-built inventory management workspace that is:
 
-* Faster than editing products individually
-* Built for large WooCommerce stores, with server-side pagination that keeps thousands of products fast to search and browse
-* Easy enough for warehouse staff to use with no training
-* Safe, with optimistic concurrency protection against conflicting edits
-* Built on native WooCommerce CRUD methods, so it stays compatible with core and HPOS
+➜ Faster than editing products individually
+➜ Built for large WooCommerce stores, with server-side pagination that keeps thousands of products fast to search and browse
+➜ Easy enough for warehouse staff to use with no training
+➜ Safe, with optimistic concurrency protection against conflicting edits
+➜ Built on native WooCommerce CRUD methods, so it stays compatible with core and HPOS
 
 Instead of jumping between dozens of product pages, your entire inventory is searchable and editable from one screen — this is what WooCommerce inventory tracking should feel like.
 
-= Perfect For =
+= 🎯 Perfect For =
 
-* WooCommerce stores of any size looking to manage inventory more efficiently
-* Warehouse and fulfillment teams
-* Retail businesses managing their own online catalogue
-* Wholesalers and manufacturers
-* Inventory and operations managers
-* Anyone tired of editing stock one product at a time
+✔ WooCommerce stores of any size looking to manage inventory more efficiently
+✔ Warehouse and fulfillment teams
+✔ Retail businesses managing their own online catalogue
+✔ Wholesalers and manufacturers
+✔ Inventory and operations managers
+✔ Anyone tired of editing stock one product at a time
 
-= Why ZexeStock for WooCommerce Inventory Management? =
+= ⚡ Why ZexeStock for WooCommerce Inventory Management? =
 
-* **Adjust stock for one product** — Default WooCommerce: open the product, edit, save, reload. ZexeStock: inline, in the table, no page reload.
-* **Search across the catalogue** — Default WooCommerce: basic list search. ZexeStock: fast server-side search over 10,000+ products.
-* **Edit a variable product** — Default WooCommerce: open each variation separately. ZexeStock: expand the parent row inline and edit every variation in place.
-* **Adjust many products at once** — Default WooCommerce: one at a time. ZexeStock: bulk selection and bulk bar (Pro).
-* **Edit like a spreadsheet** — Default WooCommerce: not possible. ZexeStock: keyboard-driven spreadsheet mode (Pro).
-* **Forecast stockouts** — Default WooCommerce: not available. ZexeStock: sales-velocity-based predictions (Pro).
+➜ **Adjust stock for one product** — Default WooCommerce: open the product, edit, save, reload. ZexeStock: inline, in the table, no page reload.
+➜ **Search across the catalogue** — Default WooCommerce: basic list search. ZexeStock: fast server-side search over 10,000+ products.
+➜ **Edit a variable product** — Default WooCommerce: open each variation separately. ZexeStock: expand the parent row inline and edit every variation in place.
+➜ **Adjust many products at once** — Default WooCommerce: one at a time. ZexeStock: bulk selection and bulk bar (Pro).
+➜ **Edit like a spreadsheet** — Default WooCommerce: not possible. ZexeStock: keyboard-driven spreadsheet mode (Pro).
+➜ **Forecast stockouts** — Default WooCommerce: not available. ZexeStock: sales-velocity-based predictions (Pro).
 
 = Free and Powerful Out of the Box =
 
 ZexeStock's free version is a complete WooCommerce inventory management plugin on its own: fast stock editing, searchable inventory, variable product support, PDF export, and more — no trial, no credit card required. When your inventory operation grows, ZexeStock Pro adds advanced tools for bulk editing, spreadsheet mode, a full audit log, advanced analytics, CSV/XLSX exports, stockout predictions, and more.
 
-= Free Features =
+= ✅ Free Features =
 
 **Fast Stock Management**
 
-* **Searchable stock table** — fast, server-side search that stays responsive even with 10,000+ products
-* **Inline stock adjustments** — add or remove stock directly from the table; no page reloads
-* **Quick +/− buttons** — one-click increment/decrement by a configurable step
-* **Inline price and product data editing** — update regular price, sale price (with scheduling), purchase price, barcode, and supplier SKU directly from the table
-* **Variable product support** — expand a parent row inline to edit every variation without leaving the table
-* **Server-side pagination** — only the products you're viewing are loaded, so performance holds up on large catalogues
+✔ Searchable stock table — fast, server-side search that stays responsive even with 10,000+ products
+✔ Inline stock adjustments — add or remove stock directly from the table; no page reloads
+✔ Quick +/− buttons — one-click increment/decrement by a configurable step
+✔ Inline price and product data editing — update regular price, sale price (with scheduling), purchase price, barcode, and supplier SKU directly from the table
+✔ Variable product support — expand a parent row inline to edit every variation without leaving the table
+✔ Server-side pagination — only the products you're viewing are loaded, so performance holds up on large catalogues
 
 **Inventory Tracking & Visibility**
 
-* **Color-coded stock status indicators** — in-stock, low-stock, out-of-stock at a glance
-* **Per-product low-stock threshold override** — set a custom threshold per product
-* **Analytics dashboard (basic)** — stock-tier counts (in-stock/low-stock/out-of-stock) on the WordPress dashboard summary widget
-* **PDF export** — generate a stock report in one click
+✔ Color-coded stock status indicators — in-stock, low-stock, out-of-stock at a glance
+✔ Per-product low-stock threshold override — set a custom threshold per product
+✔ Analytics dashboard (basic) — stock-tier counts (in-stock/low-stock/out-of-stock) on the WordPress dashboard summary widget
+✔ PDF export — generate a stock report in one click
 
 **Safe & Reliable**
 
-* **Negative stock prevention** — configurable guard that blocks adjustments below zero
-* **Optimistic concurrency control** — prevents silent overwrites when two users edit the same product at the same time
-* **Role-based access** — grant or revoke stock adjustment and settings permissions per WordPress role
-* **HPOS compatible** — built on native WooCommerce CRUD methods (`wc_update_product_stock()`, `get_stock_quantity()`), fully compatible with High-Performance Order Storage
-* **Translation ready** — ships with a `.pot` file; RTL languages supported
+✔ Negative stock prevention — configurable guard that blocks adjustments below zero
+✔ Optimistic concurrency control — prevents silent overwrites when two users edit the same product at the same time
+✔ Role-based access — grant or revoke stock adjustment and settings permissions per WordPress role
+✔ HPOS compatible — fully compatible with WooCommerce's High-Performance Order Storage
+✔ Translation ready — ships with a `.pot` file; RTL languages supported
 
-= Ready to Manage Inventory at Scale? =
+= 📈 Ready to Manage Inventory at Scale? =
 
 ZexeStock Pro turns the same fast stock management interface into a complete inventory workspace for stores that need bulk editing, spreadsheet workflows, advanced reporting, and deeper inventory insights.
 
-Upgrade and see plans: https://zexelabs.com/zexestock/pricing
+[Upgrade and see plans ➜](https://zexelabs.com/zexestock/pricing)
 
 **Save Hours Every Week**
 
-* **Bulk stock adjustments** — select multiple products and apply a change to all of them at once
-* **Spreadsheet mode** — keyboard-driven, Excel-style cell navigation for fast bulk editing
-* **Delta stock changes** — adjust by +/− amount instead of retyping an exact value
-* **Advanced filter panel** — build multi-condition filters across stock, price, and product fields
-* **Custom saved views** — save and reload named filter and column presets
-* **Undo** — revert a single adjustment, or an entire bulk batch, with one click
+✔ Bulk stock adjustments — select multiple products and apply a change to all of them at once
+✔ Spreadsheet mode — keyboard-driven, Excel-style cell navigation for fast bulk editing
+✔ Delta stock changes — adjust by +/− amount instead of retyping an exact value
+✔ Advanced filter panel — build multi-condition filters across stock, price, and product fields
+✔ Custom saved views — save and reload named filter and column presets
+✔ Undo — revert a single adjustment, or an entire bulk batch, with one click
 
 **Complete Inventory History**
 
-* **Full audit log** — every stock, price, SKU, and meta change, with who made it and when
-* **Search and filter** — by product, date range, user, and adjustment type
+✔ Full audit log — every stock, price, SKU, and meta change, with who made it and when
+✔ Search and filter — by product, date range, user, and adjustment type
 
 **Better Business Insights**
 
-* **Advanced analytics dashboard** — KPIs, sales summary, fast movers, top products, sales by category
-* **Current stock value** — know what your inventory is worth right now
-* **Stockout predictions** — estimated days-to-stockout per product, based on sales velocity
-* **Low-stock dashboard widget** — see at-risk products at a glance from the WordPress dashboard
+✔ Advanced analytics dashboard — KPIs, sales summary, fast movers, top products, sales by category
+✔ Current stock value — know what your inventory is worth right now
+✔ Stockout predictions — estimated days-to-stockout per product, based on sales velocity
+✔ Low-stock dashboard widget — see at-risk products at a glance from the WordPress dashboard
 
 **Professional Exporting**
 
-* **CSV and XLSX export** — export the stock table or audit log for spreadsheets and reporting
+✔ CSV and XLSX export — export the stock table or audit log for spreadsheets and reporting
 
-= Source Code & Build Tools =
-
-The admin interface (`admin/build/`) is compiled from TypeScript/React source with webpack. The full uncompiled source and build tools are publicly available at:
-https://github.com/zexetech/zexestock-inventory-management-for-woocommerce
-
-To build from source: `npm install && npm run build`.
+The full source code is [publicly available on GitHub](https://github.com/zexetech/zexestock-inventory-management-for-woocommerce).
 
 == Installation ==
 
@@ -157,7 +154,7 @@ Yes. ZexeStock was designed for large product catalogues. Server-side pagination
 
 = I have a problem, who do I contact and how? =
 
-Post in this plugin's Support forum here on WordPress.org, or visit https://zexelabs.com for other contact options.
+Post in this plugin's Support forum here on WordPress.org, or visit [zexelabs.com](https://zexelabs.com) for other contact options.
 
 = Is ZexeStock available in different languages? =
 
@@ -189,7 +186,7 @@ Yes. The stock table uses server-side processing — only the current page of re
 
 = Is it compatible with HPOS? =
 
-Yes. The plugin uses WooCommerce CRUD methods (`wc_update_product_stock()`, `$product->get_stock_quantity()`) exclusively for stock data and has been audited for HPOS compatibility.
+Yes. ZexeStock has been fully audited and is compatible with WooCommerce's High-Performance Order Storage.
 
 = What happens if two people adjust the same product at the same time? =
 
@@ -201,11 +198,24 @@ In the free version, double-check the value before clicking Apply — optimistic
 
 = Where are the audit log entries stored? =
 
-The audit log is a Pro feature. When Pro is active, entries are stored in a custom database table (`{prefix}zexst_audit_log`) and are searchable and filterable by product, date range, user, and adjustment type, with CSV export.
+The audit log is a Pro feature. When Pro is active, every entry is stored securely in your WordPress database and is searchable and filterable by product, date range, user, and adjustment type, with CSV export.
 
 = Does ZexeStock collect any personal data or track usage? =
 
-ZexeStock uses the Freemius SDK to handle licensing and updates for the Pro version. On activation you may be asked to opt in to sharing basic, non-sensitive diagnostic data (such as PHP/WordPress version and plugin usage metrics) to help us improve the plugin — this is entirely optional and you can skip it. No data is collected without your consent. See the Freemius privacy policy for details: https://freemius.com/privacy/.
+ZexeStock uses the Freemius SDK to handle licensing and updates for the Pro version. On activation you may be asked to opt in to sharing basic, non-sensitive diagnostic data (such as PHP/WordPress version and plugin usage metrics) to help us improve the plugin — this is entirely optional and you can skip it. No data is collected without your consent. See the [Freemius privacy policy](https://freemius.com/privacy/) for details.
+
+== External services ==
+
+ZexeStock uses the Freemius SDK to handle licensing, plugin updates, and (only with your consent) diagnostic usage data for the Pro version.
+
+Freemius (freemius.com)
+Used for license verification, delivering plugin updates, and — only if you opt in during activation — collecting basic, non-sensitive diagnostic data to help us improve the plugin.
+
+License verification: sends your license key and site URL to confirm your Pro subscription is active.
+Update checks: sends your site URL and current plugin version to check for and deliver new plugin versions.
+Diagnostic data (optional): if you opt in, sends non-sensitive environment data (such as PHP/WordPress version and plugin usage metrics). You can decline this at any time under ZexeStock → Settings.
+Service provider: Freemius Inc.
+Privacy policy: [https://freemius.com/privacy/](https://freemius.com/privacy/)
 
 == Screenshots ==
 
