@@ -31,6 +31,7 @@ import { buildColumns, DEFAULT_HIDDEN_COLUMNS } from './columns';
 import { VariationRows } from './VariationRows';
 import { Toolbar } from './Toolbar';
 import { ExportDialog } from './ExportDialog';
+import { ManageStockBar } from './ManageStockBar';
 import type { ViewPreset } from '@/types/filters';
 
 function readUrlParams() {
@@ -210,7 +211,152 @@ export function StockTableScreen() {
 		Set< number >
 	>( () => new Set() );
 
+	const [ selectedIds, setSelectedIds ] = React.useState< Set< number > >(
+		() => new Set()
+	);
+
+	const pendingSelectParentIds = React.useRef< Set< number > >( new Set() );
+	const productsRef = React.useRef< typeof products >( [] );
+	const stockStatusRef = React.useRef< string >( '' );
+
 	const queryClient = useQueryClient();
+
+	const toggleRow = React.useCallback( ( id: number ) => {
+		setSelectedIds( ( prev ) => {
+			const next = new Set( prev );
+			if ( next.has( id ) ) {
+				next.delete( id );
+			} else {
+				next.add( id );
+			}
+			return next;
+		} );
+	}, [] );
+
+	const toggleParentRow = React.useCallback(
+		( id: number ) => {
+			const product = productsRef.current.find( ( p ) => p.id === id );
+			const isExpandable = product?.type === 'variable';
+
+			setSelectedIds( ( prev ) => {
+				const next = new Set( prev );
+				const adding = ! next.has( id );
+				if ( adding ) {
+					next.add( id );
+				} else {
+					next.delete( id );
+				}
+
+				if ( isExpandable ) {
+					const cached = queryClient.getQueryData< typeof products >( [
+						'variations',
+						id,
+					] );
+					if ( cached ) {
+						const FILTERABLE_STATUSES = [
+							'in_stock',
+							'low_stock',
+							'out_of_stock',
+						];
+						const status = stockStatusRef.current;
+						const visible =
+							status && FILTERABLE_STATUSES.includes( status )
+								? cached.filter(
+										( c ) => c.stock_status === status
+								  )
+								: cached;
+						visible.forEach( ( child ) => {
+							if ( adding ) {
+								next.add( child.id );
+							} else {
+								next.delete( child.id );
+							}
+						} );
+					} else if ( adding ) {
+						pendingSelectParentIds.current.add( id );
+					}
+				}
+				return next;
+			} );
+
+			if ( isExpandable ) {
+				setExpandedParentIds( ( prev ) => {
+					if ( prev.has( id ) ) {
+						return prev;
+					}
+					const next = new Set( prev );
+					next.add( id );
+					return next;
+				} );
+			}
+		},
+		[ queryClient ]
+	);
+
+	const toggleAll = React.useCallback(
+		( ids: number[], checked: boolean ) => {
+			if ( checked ) {
+				const FILTERABLE_STATUSES = [
+					'in_stock',
+					'low_stock',
+					'out_of_stock',
+				];
+
+				const expandableParents = productsRef.current.filter(
+					( p ) => p.type === 'variable'
+				);
+
+				const cachedChildIds: number[] = [];
+				const status = stockStatusRef.current;
+				const shouldFilter =
+					!! status && FILTERABLE_STATUSES.includes( status );
+
+				expandableParents.forEach( ( p ) => {
+					const cached = queryClient.getQueryData< typeof products >( [
+						'variations',
+						p.id,
+					] );
+					if ( cached ) {
+						const visible = shouldFilter
+							? cached.filter( ( c ) => c.stock_status === status )
+							: cached;
+						visible.forEach( ( c ) => cachedChildIds.push( c.id ) );
+					} else {
+						pendingSelectParentIds.current.add( p.id );
+					}
+				} );
+
+				setSelectedIds( ( prev ) => {
+					const next = new Set( prev );
+					ids.forEach( ( id ) => next.add( id ) );
+					cachedChildIds.forEach( ( id ) => next.add( id ) );
+					return next;
+				} );
+
+				if ( expandableParents.length > 0 ) {
+					setExpandedParentIds( ( prev ) => {
+						if (
+							expandableParents.every( ( p ) => prev.has( p.id ) )
+						) {
+							return prev;
+						}
+						const next = new Set( prev );
+						expandableParents.forEach( ( p ) => next.add( p.id ) );
+						return next;
+					} );
+				}
+			} else {
+				setSelectedIds( new Set() );
+				pendingSelectParentIds.current.clear();
+			}
+		},
+		[ queryClient ]
+	);
+
+	const clearSelection = React.useCallback( () => {
+		setSelectedIds( new Set() );
+		pendingSelectParentIds.current.clear();
+	}, [] );
 
 	const toggleExpand = React.useCallback( ( id: number ) => {
 		setExpandedParentIds( ( prev ) => {
@@ -248,10 +394,14 @@ export function StockTableScreen() {
 
 	React.useEffect( () => {
 		setExpandedParentIds( new Set() );
+		setSelectedIds( new Set() );
+		pendingSelectParentIds.current.clear();
 	}, [ params.page ] );
 
 	React.useEffect( () => {
 		setExpandedParentIds( new Set() );
+		setSelectedIds( new Set() );
+		pendingSelectParentIds.current.clear();
 	}, [
 		params.search,
 		params.searchField,
@@ -296,6 +446,10 @@ export function StockTableScreen() {
 		} );
 	}, [ data, queryClient ] );
 
+	productsRef.current = products;
+
+	stockStatusRef.current = params.stock_status || '';
+
 	const expandableIds = React.useMemo(
 		() =>
 			products
@@ -317,9 +471,137 @@ export function StockTableScreen() {
 		} );
 	}, [ expandableIds ] );
 
+	const [ expandedChildIds, setExpandedChildIds ] = React.useState<
+		number[]
+	>( [] );
+
+	React.useEffect( () => {
+		function computeChildIds() {
+			const ids: number[] = [];
+			const FILTERABLE_STATUSES = [
+				'in_stock',
+				'low_stock',
+				'out_of_stock',
+			];
+			const status = stockStatusRef.current;
+			const shouldFilter =
+				status && FILTERABLE_STATUSES.includes( status );
+			for ( const parentId of expandedParentIds ) {
+				const parent = products.find( ( p ) => p.id === parentId );
+				if ( ! parent ) {
+					continue;
+				}
+
+				if ( parent.type === 'variable' ) {
+					const vars = queryClient.getQueryData< typeof products >( [
+						'variations',
+						parentId,
+					] );
+					if ( vars ) {
+						const visible = shouldFilter
+							? vars.filter( ( v ) => v.stock_status === status )
+							: vars;
+						ids.push( ...visible.map( ( v ) => v.id ) );
+					}
+				}
+			}
+			setExpandedChildIds( ids );
+		}
+
+		computeChildIds();
+
+		if ( expandedParentIds.size === 0 ) {
+			return;
+		}
+
+		const unsub = queryClient.getQueryCache().subscribe( ( event ) => {
+			if (
+				event.type === 'updated' &&
+				event.query.state.status === 'success' &&
+				event.query.queryKey[ 0 ] === 'variations' &&
+				typeof event.query.queryKey[ 1 ] === 'number' &&
+				expandedParentIds.has( event.query.queryKey[ 1 ] as number )
+			) {
+				computeChildIds();
+			}
+		} );
+
+		return unsub;
+	}, [ expandedParentIds, products, queryClient ] );
+
+	React.useEffect( () => {
+		if ( pendingSelectParentIds.current.size === 0 ) {
+			return;
+		}
+
+		const status = stockStatusRef.current;
+		const shouldFilter =
+			!! status &&
+			[ 'in_stock', 'low_stock', 'out_of_stock' ].includes( status );
+		const ready: number[] = [];
+		const toAdd: number[] = [];
+
+		pendingSelectParentIds.current.forEach( ( parentId ) => {
+			const parent = products.find( ( p ) => p.id === parentId );
+
+			if ( ! parent || parent.type !== 'variable' ) {
+				return;
+			}
+			const cached = queryClient.getQueryData< typeof products >( [
+				'variations',
+				parentId,
+			] );
+			if ( ! cached ) {
+				return;
+			}
+			ready.push( parentId );
+			const visible = shouldFilter
+				? cached.filter( ( c ) => c.stock_status === status )
+				: cached;
+			visible.forEach( ( c ) => toAdd.push( c.id ) );
+		} );
+
+		if ( ready.length === 0 ) {
+			return;
+		}
+
+		ready.forEach( ( parentId ) =>
+			pendingSelectParentIds.current.delete( parentId )
+		);
+
+		setSelectedIds( ( prev ) => {
+			const next = new Set( prev );
+			toAdd.forEach( ( id ) => next.add( id ) );
+			return next;
+		} );
+	}, [ expandedChildIds, products, queryClient ] );
+
+	const allPageIds = React.useMemo(
+		() => [
+			...products.filter( ( p ) => p.type !== 'grouped' ).map( ( p ) => p.id ),
+			...expandedChildIds,
+		],
+		[ products, expandedChildIds ]
+	);
+
 	const columns = React.useMemo(
-		() => buildColumns( expandedParentIds, toggleExpand ),
-		[ expandedParentIds, toggleExpand ]
+		() =>
+			buildColumns(
+				expandedParentIds,
+				toggleExpand,
+				selectedIds,
+				toggleParentRow,
+				toggleAll,
+				allPageIds
+			),
+		[
+			expandedParentIds,
+			toggleExpand,
+			selectedIds,
+			toggleParentRow,
+			toggleAll,
+			allPageIds,
+		]
 	);
 
 	const table = useReactTable( {
@@ -330,7 +612,7 @@ export function StockTableScreen() {
 			sorting,
 			columnVisibility: colVisibility,
 			columnSizing: colSizing,
-			columnPinning: { left: [ 'image', 'name' ] },
+			columnPinning: { left: [ 'select', 'image', 'name' ] },
 			pagination: {
 				pageIndex: params.page - 1,
 				pageSize: params.pageSize,
@@ -484,11 +766,17 @@ export function StockTableScreen() {
 			const isExpanded =
 				isVariable && expandedParentIds.has( row.original.id );
 
+			const isSelected = selectedIds.has( row.original.id );
+
 			const expandedBg = isExpanded ? '!bg-info-bg' : '';
+
 			const stickyBg = isExpanded ? 'bg-info-bg' : 'bg-background';
 			return (
 				<React.Fragment key={ row.id }>
-					<TableRow className={ expandedBg || undefined }>
+					<TableRow
+						data-state={ isSelected ? 'selected' : undefined }
+						className={ expandedBg || undefined }
+					>
 						{ row.getVisibleCells().map( ( cell ) => (
 							<TableCell
 								key={ cell.id }
@@ -528,6 +816,8 @@ export function StockTableScreen() {
 							productId={ row.original.id }
 							visibleColumnIds={ visibleColumnIds }
 							stockStatus={ params.stock_status || undefined }
+							selectedIds={ selectedIds }
+							onToggleRow={ toggleRow }
 						/>
 					) }
 				</React.Fragment>
@@ -813,6 +1103,16 @@ export function StockTableScreen() {
 				} }
 				filteredCount={ meta?.total }
 			/>
+
+			{ selectedIds.size > 0 && (
+				<div className="fixed bottom-6 left-0 right-0 z-50 flex justify-center px-4">
+					<ManageStockBar
+						selectedIds={ [ ...selectedIds ] }
+						onClearSelection={ clearSelection }
+						currentPageProducts={ products }
+					/>
+				</div>
+			) }
 		</>
 	);
 }

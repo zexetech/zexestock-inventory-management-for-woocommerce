@@ -4,7 +4,7 @@ Tags: woocommerce inventory management, woocommerce inventory tracking, woocomme
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,13 +52,13 @@ Instead of jumping between dozens of product pages, your entire inventory is sea
 ➜ **Adjust stock for one product** — Default WooCommerce: open the product, edit, save, reload. ZexeStock: inline, in the table, no page reload.
 ➜ **Search across the catalogue** — Default WooCommerce: basic list search. ZexeStock: fast server-side search over 10,000+ products.
 ➜ **Edit a variable product** — Default WooCommerce: open each variation separately. ZexeStock: expand the parent row inline and edit every variation in place.
-➜ **Adjust many products at once** — Default WooCommerce: one at a time. ZexeStock: bulk selection and bulk bar (Pro).
+➜ **Adjust many products at once** — Default WooCommerce: one at a time. ZexeStock: bulk-select products to enable/disable stock tracking for free, or bulk-edit stock and price with the full bulk bar (Pro).
 ➜ **Edit like a spreadsheet** — Default WooCommerce: not possible. ZexeStock: keyboard-driven spreadsheet mode (Pro).
 ➜ **Forecast stockouts** — Default WooCommerce: not available. ZexeStock: sales-velocity-based predictions (Pro).
 
 = Free and Powerful Out of the Box =
 
-ZexeStock's free version is a complete WooCommerce inventory management plugin on its own: fast stock editing, searchable inventory, variable product support, PDF export, and more — no trial, no credit card required. When your inventory operation grows, ZexeStock Pro adds advanced tools for bulk editing, spreadsheet mode, a full audit log, advanced analytics, CSV/XLSX exports, stockout predictions, and more.
+ZexeStock's free version is a complete WooCommerce inventory management plugin on its own: fast stock editing, searchable inventory, variable product support, bulk stock-tracking toggle, PDF export, and more. 
 
 = ✅ Free Features =
 
@@ -70,6 +70,7 @@ ZexeStock's free version is a complete WooCommerce inventory management plugin o
 ✔ Inline price and product data editing — update regular price, sale price (with scheduling), purchase price, barcode, and supplier SKU directly from the table
 ✔ Variable product support — expand a parent row inline to edit every variation without leaving the table
 ✔ Server-side pagination — only the products you're viewing are loaded, so performance holds up on large catalogues
+✔ Bulk manage-stock toggle — select multiple products (including their variations) and enable or disable stock tracking for all of them in one action
 
 **Inventory Tracking & Visibility**
 
@@ -94,7 +95,7 @@ ZexeStock Pro turns the same fast stock management interface into a complete inv
 
 **Save Hours Every Week**
 
-✔ Bulk stock adjustments — select multiple products and apply a change to all of them at once
+✔ Bulk stock and price adjustments — select multiple products and apply a stock or price change to all of them at once.
 ✔ Spreadsheet mode — keyboard-driven, Excel-style cell navigation for fast bulk editing
 ✔ Delta stock changes — adjust by +/− amount instead of retyping an exact value
 ✔ Advanced filter panel — build multi-condition filters across stock, price, and product fields
@@ -134,11 +135,11 @@ WordPress 6.4+, WooCommerce 6.4+, and PHP 8.0+.
 
 = Is ZexeStock a WooCommerce inventory management plugin? =
 
-Yes. ZexeStock is a WooCommerce inventory management plugin designed to make stock, price, and product data management faster across large catalogues. The free version includes searchable inventory, inline stock and price editing, variable product support, stock visibility, PDF export, and more. ZexeStock Pro adds bulk editing, spreadsheet mode, audit logs, advanced analytics, and CSV/XLSX export.
+Yes. ZexeStock is a WooCommerce inventory management plugin designed to make stock, price, and product data management faster across large catalogues. The free version includes searchable inventory, inline stock and price editing, variable product support, a bulk manage-stock toggle, stock visibility, PDF export, and more. ZexeStock Pro adds bulk stock/price editing, spreadsheet mode, audit logs, advanced analytics, and CSV/XLSX export.
 
 = What can I do with the free version? =
 
-A lot. You get a searchable, paginated stock table for 10,000+ products, inline stock adjustments, quick +/− buttons, inline price and product data editing (regular price, sale price, purchase price, barcode, supplier SKU), full variable product support, color-coded stock status, per-product low-stock thresholds, a basic analytics widget, PDF export, negative stock prevention, optimistic concurrency control, role-based access, and HPOS compatibility — no trial, no credit card required. When you need more, Pro adds bulk editing, a full audit log, spreadsheet mode, advanced analytics, and more.
+A lot. You get a searchable, paginated stock table for 10,000+ products, inline stock adjustments, quick +/− buttons, inline price and product data editing (regular price, sale price, purchase price, barcode, supplier SKU), full variable product support, color-coded stock status, per-product low-stock thresholds, a basic analytics widget, PDF export, negative stock prevention, optimistic concurrency control, role-based access, and HPOS compatibility — no trial, no credit card required. You can also select multiple products and bulk-toggle stock tracking on or off for all of them at once, for free. When you need more, Pro adds bulk stock/price editing, a full audit log, spreadsheet mode, advanced analytics, and more.
 
 = Can I quickly adjust stock for individual products? =
 
@@ -146,7 +147,7 @@ Yes. Use the quick +/− buttons for one-click increments, or type a value direc
 
 = How many products can I edit at once? =
 
-In the free version, you edit one product row at a time — inline, with no page reload, and fast enough thanks to server-side search and pagination that stay responsive even with 10,000+ products. If you need to apply the same change to many products in a single action, ZexeStock Pro adds bulk selection, a bulk stock/price bar, and keyboard-driven spreadsheet mode for editing WooCommerce catalogs at scale (Pro).
+You can select multiple products and bulk-toggle "manage stock" on or off for all of them at once — that's included free. For everything else, you edit one product row at a time in the free version — inline, with no page reload, and fast enough thanks to server-side search and pagination that stay responsive even with 10,000+ products. If you need to apply a stock or price change to many products in a single action, ZexeStock Pro adds a full bulk stock/price bar and keyboard-driven spreadsheet mode for editing WooCommerce catalogs at scale (Pro).
 
 = Can I manage inventory for thousands of WooCommerce products? =
 
@@ -223,7 +224,7 @@ Privacy policy: [https://freemius.com/privacy/](https://freemius.com/privacy/)
 2. Advanced analytics dashboard, full view — inventory health, low-stock breakdown, and current stock value (Pro)
 3. Stock Manager — searchable, sortable product table with inline stock and price editing
 4. Variable products expand inline to reveal and edit every variation
-5. Bulk selection bar — select multiple products and choose a bulk action (Pro)
+5. Bulk selection bar — select multiple products and choose a bulk action (manage-stock toggle is free; stock/price adjustments are Pro)
 6. Bulk stock adjustment — apply a +/- change to every selected product at once (Pro)
 7. Bulk price adjustment — update regular price, sale price, and sale schedule for selected products (Pro)
 8. Confirmation dialog shown before a bulk adjustment is applied (Pro)
@@ -239,10 +240,16 @@ Privacy policy: [https://freemius.com/privacy/](https://freemius.com/privacy/)
 
 == Changelog ==
 
+= 1.1.0 =
+* New: bulk Enable/Disable Stock Management action for selected products in the stock table.
+
 = 1.0.0 =
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Adds a free bulk action: select multiple products and enable/disable stock management for all of them at once.
 
 = 1.0.0 =
 Initial release.

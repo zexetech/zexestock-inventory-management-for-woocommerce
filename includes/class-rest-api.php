@@ -53,6 +53,22 @@ class ZEXST_REST_API {
             'permission_callback' => array($this, 'check_stock_permission'),
             'args'                => $this->get_adjust_schema_args(),
         ) );
+        register_rest_route( self::NAMESPACE, '/products/batch-set-manage-stock', array(
+            'methods'             => WP_REST_Server::CREATABLE,
+            'callback'            => array($this, 'batch_set_manage_stock'),
+            'permission_callback' => array($this, 'check_stock_permission'),
+            'args'                => array(
+                'ids'          => array(
+                    'type'     => 'array',
+                    'required' => true,
+                    'items'    => array('type' => 'integer', 'minimum' => 1),
+                ),
+                'manage_stock' => array(
+                    'type'     => 'boolean',
+                    'required' => true,
+                ),
+            ),
+        ) );
         register_rest_route( self::NAMESPACE, '/products/(?P<id>\\d+)/set-price', array(
             'methods'             => WP_REST_Server::CREATABLE,
             'callback'            => array($this, 'set_price'),
@@ -280,6 +296,72 @@ class ZEXST_REST_API {
             'adjustment'     => $adjustment,
             'log_id'         => $result['log_id'],
         ), 200);
+    }
+
+    public function batch_set_manage_stock( \WP_REST_Request $request ) : \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+        $ids = $request->get_param( 'ids' );
+        $manage_stock = (bool) $request->get_param( 'manage_stock' );
+        if ( !is_array( $ids ) || empty( $ids ) ) {
+            return new \WP_Error('no_items', __( 'No items provided.', 'zexestock-inventory-management-for-woocommerce' ), array(
+                'status' => 400,
+            ));
+        }
+        $results = array();
+        foreach ( $ids as $raw_id ) {
+            $product_id = absint( $raw_id );
+            if ( $product_id <= 0 ) {
+                continue;
+            }
+            $product = wc_get_product( $product_id );
+            if ( !$product ) {
+                $results[] = array(
+                    'id'      => $product_id,
+                    'success' => false,
+                    'error'   => __( 'Product not found.', 'zexestock-inventory-management-for-woocommerce' ),
+                );
+                continue;
+            }
+            if ( $product->is_type( 'grouped' ) ) {
+                $results[] = array(
+                    'id'      => $product_id,
+                    'success' => false,
+                    'error'   => __( "Grouped products can't have stock management toggled directly.", 'zexestock-inventory-management-for-woocommerce' ),
+                );
+                continue;
+            }
+            $old_manage_stock = $product->get_manage_stock();
+            if ( $old_manage_stock === $manage_stock ) {
+                $results[] = array(
+                    'id'           => $product_id,
+                    'success'      => true,
+                    'manage_stock' => $manage_stock,
+                );
+                continue;
+            }
+            $product->set_manage_stock( $manage_stock );
+            if ( $manage_stock && null === $product->get_stock_quantity() ) {
+                $product->set_stock_quantity( 0 );
+            }
+            $product->save();
+            if ( $manage_stock ) {
+                wc_update_product_stock( $product, $product->get_stock_quantity(), 'set' );
+            }
+            $results[] = array(
+                'id'           => $product_id,
+                'success'      => true,
+                'manage_stock' => $manage_stock,
+            );
+        }
+        if ( empty( $results ) ) {
+            return new \WP_Error('no_valid_items', __( 'No valid items to process.', 'zexestock-inventory-management-for-woocommerce' ), array(
+                'status' => 400,
+            ));
+        }
+        return new \WP_REST_Response(array( 'results' => $results ), 200);
     }
 
     public function validate_revert_item( $item, \WP_REST_Request $request ) : bool {

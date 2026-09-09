@@ -26,10 +26,10 @@ class ZEXST_Installer {
 			return;
 		}
 
-		global $wpdb;
-
-		$wpdb->update( $wpdb->options, array( 'autoload' => 'no' ), array( 'option_name' => 'zexst_settings' ) );
-		$wpdb->update( $wpdb->options, array( 'autoload' => 'no' ), array( 'option_name' => 'zexst_db_version' ) );
+		$settings = get_option( 'zexst_settings' );
+		if ( false !== $settings ) {
+			update_option( 'zexst_settings', $settings, false );
+		}
 
 		update_option( 'zexst_db_version', self::DB_VERSION, false );
 	}
