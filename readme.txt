@@ -1,6 +1,6 @@
 === ZexeStock | Inventory Management for WooCommerce ===
 Contributors: aless1o
-Tags: woocommerce inventory management, woocommerce inventory tracking, woocommerce inventory manager, manage inventory woocommerce, woocommerce stock management, wordpress stock management, variable products, hpos, woocommerce product management
+Tags: woocommerce inventory management, woocommerce inventory tracking, woocommerce inventory manager, manage inventory woocommerce, woocommerce stock management
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.0
