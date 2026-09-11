@@ -1,0 +1,17 @@
+.git
+.github
+.gitignore
+.distignore
+node_modules
+admin/src
+patches
+package.json
+package-lock.json
+webpack.config.js
+tailwind.config.js
+postcss.config.js
+tsconfig.json
+components.json
+.eslintrc.js
+.stylelintrc.json
+jest.config.js

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { CornerDownRight } from 'lucide-react';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Checkbox } from '@/components/ui/checkbox';
 import { StockCell } from './StockCell';
 import { PriceCell } from './PriceCell';
 import { MetaTextCell } from './MetaTextCell';
@@ -14,11 +15,28 @@ import type { Product, StockStatus } from '@/types/api';
 function VariationCell( {
 	columnId,
 	variation,
+	selectedIds,
+	onToggleRow,
 }: {
 	columnId: string;
 	variation: Product;
+	selectedIds?: Set< number >;
+	onToggleRow?: ( id: number ) => void;
 } ) {
 	switch ( columnId ) {
+		case 'select':
+			if ( ! onToggleRow ) {
+				return null;
+			}
+			return (
+				<div className="flex h-full items-center justify-center">
+					<Checkbox
+						checked={ selectedIds?.has( variation.id ) ?? false }
+						onCheckedChange={ () => onToggleRow( variation.id ) }
+						aria-label={ `Select ${ variation.name }` }
+					/>
+				</div>
+			);
 		case 'image':
 			return (
 				<div className="flex items-center justify-center w-full">
@@ -179,12 +197,16 @@ interface VariationRowsProps {
 	productId: number;
 	visibleColumnIds: string[];
 	stockStatus?: string;
+	selectedIds?: Set< number >;
+	onToggleRow?: ( id: number ) => void;
 }
 
 export function VariationRows( {
 	productId,
 	visibleColumnIds,
 	stockStatus,
+	selectedIds,
+	onToggleRow,
 }: VariationRowsProps ) {
 	const colSpan = visibleColumnIds.length;
 	const {
@@ -257,6 +279,9 @@ export function VariationRows( {
 			{ variations.map( ( variation ) => (
 				<TableRow
 					key={ variation.id }
+					data-state={
+						selectedIds?.has( variation.id ) ? 'selected' : undefined
+					}
 					className="!bg-row-child-bg hover:!bg-row-child-bg-hover"
 				>
 					{ visibleColumnIds.map( ( colId ) => (
@@ -264,6 +289,8 @@ export function VariationRows( {
 							<VariationCell
 								columnId={ colId }
 								variation={ variation }
+								selectedIds={ selectedIds }
+								onToggleRow={ onToggleRow }
 							/>
 						</TableCell>
 					) ) }

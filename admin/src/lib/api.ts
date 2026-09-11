@@ -149,3 +149,20 @@ export async function setThreshold(
 		}
 	);
 }
+
+export async function batchSetManageStock(
+	ids: number[],
+	manageStock: boolean
+): Promise< {
+	results: Array< {
+		id: number;
+		success: boolean;
+		manage_stock?: boolean;
+		error?: string;
+	} >;
+} > {
+	return apiPost( 'products/batch-set-manage-stock', {
+		ids,
+		manage_stock: manageStock,
+	} );
+}

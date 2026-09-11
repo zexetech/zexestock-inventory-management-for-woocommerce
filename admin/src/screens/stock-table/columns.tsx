@@ -8,6 +8,7 @@ import { SkuCell } from './SkuCell';
 import { ThresholdCell } from './ThresholdCell';
 import { MetaTextCell } from './MetaTextCell';
 import { ProductTypeBadge } from './ProductTypeBadge';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
 	Tooltip,
 	TooltipTrigger,
@@ -25,9 +26,69 @@ function decodeHtml( html: string ): string {
 
 export function buildColumns(
 	expandedParentIds: Set< number >,
-	onToggleExpand: ( id: number ) => void
+	onToggleExpand: ( id: number ) => void,
+	selectedIds?: Set< number >,
+	onToggleRow?: ( id: number ) => void,
+	onToggleAll?: ( ids: number[], checked: boolean ) => void,
+	allPageIds?: number[]
 ) {
 	return [
+		helper.display( {
+			id: 'select',
+			enableResizing: false,
+			header: () => {
+				if ( ! onToggleAll || ! allPageIds ) {
+					return null;
+				}
+				const allChecked =
+					allPageIds.length > 0 &&
+					allPageIds.every( ( id ) => selectedIds?.has( id ) );
+				const someChecked =
+					! allChecked &&
+					allPageIds.some( ( id ) => selectedIds?.has( id ) );
+				return (
+					<div className="flex items-center justify-center px-[3px]">
+						<Checkbox
+							checked={ someChecked ? 'indeterminate' : allChecked }
+							onCheckedChange={ ( checked ) =>
+								onToggleAll( allPageIds, !! checked )
+							}
+							aria-label="Select all on this page"
+						/>
+					</div>
+				);
+			},
+			cell: ( { row } ) => {
+				if ( ! onToggleRow ) {
+					return null;
+				}
+				if ( row.original.type === 'grouped' ) {
+					return (
+						<div className="flex h-full items-center justify-center px-[3px]">
+							<Checkbox
+								disabled
+								aria-label="Grouped products can't be bulk edited — select their linked products individually"
+							/>
+						</div>
+					);
+				}
+				const id = row.original.id;
+				return (
+					<div className="flex h-full items-center justify-center px-[3px]">
+						<Checkbox
+							checked={ selectedIds?.has( id ) ?? false }
+							onCheckedChange={ () => onToggleRow( id ) }
+							aria-label={ `Select ${ row.original.name }` }
+						/>
+					</div>
+				);
+			},
+			enableSorting: false,
+			size: 40,
+			minSize: 40,
+			maxSize: 40,
+		} ),
+
 		helper.accessor( 'image_url', {
 			id: 'image',
 			enableResizing: false,
