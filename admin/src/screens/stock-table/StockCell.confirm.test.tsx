@@ -69,7 +69,7 @@ describe( 'StockCell large-adjustment confirmation', () => {
 	it( 'shows a confirmation dialog without applying when the adjustment exceeds the warning threshold', () => {
 		const product = makeProduct();
 		openPopover( product );
-		typeAdjustment( product, '600' );
+		typeAdjustment( product, '650' );
 		clickApply();
 
 		expect( mockMutate ).not.toHaveBeenCalled();
@@ -84,7 +84,7 @@ describe( 'StockCell large-adjustment confirmation', () => {
 	it( 'applies the adjustment and closes the dialog when Confirm is clicked', () => {
 		const product = makeProduct();
 		openPopover( product );
-		typeAdjustment( product, '600' );
+		typeAdjustment( product, '650' );
 		clickApply();
 		fireEvent.click( screen.getByRole( 'button', { name: 'Confirm' } ) );
 
@@ -102,7 +102,7 @@ describe( 'StockCell large-adjustment confirmation', () => {
 	it( 'does not apply and preserves the input when Cancel is clicked', () => {
 		const product = makeProduct();
 		openPopover( product );
-		const input = typeAdjustment( product, '600' );
+		const input = typeAdjustment( product, '650' );
 		clickApply();
 		fireEvent.click( screen.getByRole( 'button', { name: 'Cancel' } ) );
 
@@ -112,7 +112,7 @@ describe( 'StockCell large-adjustment confirmation', () => {
 				name: /Confirm large adjustment/i,
 			} )
 		).toBeNull();
-		expect( input ).toHaveValue( 600 );
+		expect( input ).toHaveValue( 650 );
 		expect(
 			screen.getByRole( 'button', { name: 'Apply' } )
 		).toBeInTheDocument();

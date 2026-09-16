@@ -43,7 +43,9 @@ export function ManageStockBar( {
 		return s;
 	}, [ currentPageProducts ] );
 
-	const count = selectedIds.filter( ( id ) => ! groupedIdSet.has( id ) ).length;
+	const count = selectedIds.filter(
+		( id ) => ! groupedIdSet.has( id )
+	).length;
 	const skippedCount = selectedIds.length - count;
 
 	if ( selectedIds.length === 0 ) {
@@ -58,7 +60,9 @@ export function ManageStockBar( {
 	async function handleConfirmed() {
 		setConfirmOpen( false );
 
-		const targetIds = selectedIds.filter( ( id ) => ! groupedIdSet.has( id ) );
+		const targetIds = selectedIds.filter(
+			( id ) => ! groupedIdSet.has( id )
+		);
 
 		const result = await runBatch( {
 			ids: targetIds,
@@ -76,9 +80,7 @@ export function ManageStockBar( {
 			onClearSelection();
 		} else {
 			toast.warning(
-				`${ count - errors.length } updated, ${
-					errors.length
-				} failed`
+				`${ count - errors.length } updated, ${ errors.length } failed`
 			);
 		}
 	}
@@ -156,7 +158,10 @@ export function ManageStockBar( {
 			<PageOverlay open={ isPending } message="Applying changes…" />
 
 			<Dialog open={ confirmOpen } onOpenChange={ setConfirmOpen }>
-				<DialogContent className="z-[10000]" overlayClassName="z-[10000]">
+				<DialogContent
+					className="z-[10000]"
+					overlayClassName="z-[10000]"
+				>
 					<DialogHeader>
 						<DialogTitle>Confirm</DialogTitle>
 						<DialogDescription>
@@ -170,7 +175,10 @@ export function ManageStockBar( {
 								Cancel
 							</Button>
 						</DialogClose>
-						<Button size="sm" onClick={ () => void handleConfirmed() }>
+						<Button
+							size="sm"
+							onClick={ () => void handleConfirmed() }
+						>
 							Confirm
 						</Button>
 					</DialogFooter>

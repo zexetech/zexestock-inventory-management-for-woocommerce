@@ -546,7 +546,7 @@ class ZEXST_REST_API {
         return true;
     }
 
-    public function validate_price_param( $value ) : true|\WP_Error {
+    public function validate_price_param( $value ) : bool|\WP_Error {
         if ( null === $value || '' === $value ) {
             return true;
         }

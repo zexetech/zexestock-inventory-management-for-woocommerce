@@ -153,6 +153,7 @@ function OutOfStockCard() {
 	);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- props kept for call-site type-checking; children fetch their own data
 export function KpiCards( _props: Props ) {
 	return (
 		<section>
