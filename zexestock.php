@@ -4,7 +4,7 @@
  * Plugin Name:       ZexeStock | Inventory Management for WooCommerce
  * Plugin URI:        https://zexelabs.com
  * Description:       The all-in-one stock management plugin for WooCommerce sellers.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * Author:            ZexeLabs
@@ -48,7 +48,7 @@ if ( function_exists( 'zexst_fs' ) ) {
         zexst_fs();
         do_action( 'zexst_fs_loaded' );
     }
-    define( 'ZEXST_VERSION', '1.1.0' );
+    define( 'ZEXST_VERSION', '1.1.1' );
     define( 'ZEXST_PLUGIN_FILE', __FILE__ );
     define( 'ZEXST_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
     define( 'ZEXST_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
