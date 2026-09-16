@@ -91,7 +91,7 @@ ZexeStock's free version is a complete WooCommerce inventory management plugin o
 
 ZexeStock Pro turns the same fast stock management interface into a complete inventory workspace for stores that need bulk editing, spreadsheet workflows, advanced reporting, and deeper inventory insights.
 
-[Upgrade and see plans ➜](https://zexelabs.com/zexestock/pricing)
+[Upgrade and see plans ➜](https://zexelabs.com/pricing/)
 
 **Save Hours Every Week**
 

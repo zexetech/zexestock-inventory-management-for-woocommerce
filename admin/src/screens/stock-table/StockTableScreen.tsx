@@ -117,8 +117,7 @@ function readStickyHeader(): boolean {
 function writeStickyHeader( val: boolean ) {
 	try {
 		localStorage.setItem( STICKY_HEADER_KEY, String( val ) );
-	} catch {
-	}
+	} catch {}
 }
 
 function readColSizing(): ColumnSizingState {
@@ -127,16 +126,14 @@ function readColSizing(): ColumnSizingState {
 		if ( stored ) {
 			return JSON.parse( stored ) as ColumnSizingState;
 		}
-	} catch {
-	}
+	} catch {}
 	return {};
 }
 
 function writeColSizing( state: ColumnSizingState ) {
 	try {
 		localStorage.setItem( COL_SIZE_KEY, JSON.stringify( state ) );
-	} catch {
-	}
+	} catch {}
 }
 
 function readColVisibility(): VisibilityState {
@@ -145,16 +142,14 @@ function readColVisibility(): VisibilityState {
 		if ( stored ) {
 			return JSON.parse( stored ) as VisibilityState;
 		}
-	} catch {
-	}
+	} catch {}
 	return DEFAULT_HIDDEN_COLUMNS;
 }
 
 function writeColVisibility( state: VisibilityState ) {
 	try {
 		localStorage.setItem( COL_VIS_KEY, JSON.stringify( state ) );
-	} catch {
-	}
+	} catch {}
 }
 
 function getPaginationPages(
@@ -248,10 +243,9 @@ export function StockTableScreen() {
 				}
 
 				if ( isExpandable ) {
-					const cached = queryClient.getQueryData< typeof products >( [
-						'variations',
-						id,
-					] );
+					const cached = queryClient.getQueryData< typeof products >(
+						[ 'variations', id ]
+					);
 					if ( cached ) {
 						const FILTERABLE_STATUSES = [
 							'in_stock',
@@ -312,13 +306,14 @@ export function StockTableScreen() {
 					!! status && FILTERABLE_STATUSES.includes( status );
 
 				expandableParents.forEach( ( p ) => {
-					const cached = queryClient.getQueryData< typeof products >( [
-						'variations',
-						p.id,
-					] );
+					const cached = queryClient.getQueryData< typeof products >(
+						[ 'variations', p.id ]
+					);
 					if ( cached ) {
 						const visible = shouldFilter
-							? cached.filter( ( c ) => c.stock_status === status )
+							? cached.filter(
+									( c ) => c.stock_status === status
+							  )
 							: cached;
 						visible.forEach( ( c ) => cachedChildIds.push( c.id ) );
 					} else {
@@ -578,7 +573,9 @@ export function StockTableScreen() {
 
 	const allPageIds = React.useMemo(
 		() => [
-			...products.filter( ( p ) => p.type !== 'grouped' ).map( ( p ) => p.id ),
+			...products
+				.filter( ( p ) => p.type !== 'grouped' )
+				.map( ( p ) => p.id ),
 			...expandedChildIds,
 		],
 		[ products, expandedChildIds ]
@@ -965,6 +962,7 @@ export function StockTableScreen() {
 													);
 												} )() }
 												{ header.column.getCanResize() && (
+													// eslint-disable-next-line jsx-a11y/no-static-element-interactions -- column resize handle is pointer/touch-only by design
 													<div
 														onMouseDown={ header.getResizeHandler() }
 														onTouchStart={ header.getResizeHandler() }

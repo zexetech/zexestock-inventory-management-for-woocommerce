@@ -28,6 +28,13 @@ export function CategoryDropdown( {
 	const [ style, setStyle ] = React.useState< React.CSSProperties >( {} );
 	const triggerRef = React.useRef< HTMLButtonElement >( null );
 	const dropdownRef = React.useRef< HTMLDivElement >( null );
+	const searchInputRef = React.useRef< HTMLInputElement >( null );
+
+	React.useEffect( () => {
+		if ( open ) {
+			searchInputRef.current?.focus();
+		}
+	}, [ open ] );
 
 	const selectedCat =
 		value > 0 ? categories.find( ( c ) => c.id === value ) : null;
@@ -106,7 +113,7 @@ export function CategoryDropdown( {
 					>
 						<div className="p-2 border-b border-border">
 							<input
-								autoFocus
+								ref={ searchInputRef }
 								type="search"
 								placeholder="Search categories…"
 								value={ search }

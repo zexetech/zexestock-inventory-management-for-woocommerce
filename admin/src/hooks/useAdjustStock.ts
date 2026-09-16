@@ -31,7 +31,12 @@ export function useAdjustStock( options?: UseAdjustStockOptions ) {
 	const queryClient = useQueryClient();
 
 	return useMutation< AdjustStockResponse, Error, AdjustVars, Snapshot >( {
-		mutationFn: ( { productId, adjustment, currentStock, expectedStock } ) =>
+		mutationFn: ( {
+			productId,
+			adjustment,
+			currentStock,
+			expectedStock,
+		} ) =>
 			adjustStock( productId, {
 				adjustment: ( currentStock ?? 0 ) + adjustment,
 				expected_stock: expectedStock,

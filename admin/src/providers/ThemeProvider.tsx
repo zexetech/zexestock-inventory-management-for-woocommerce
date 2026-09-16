@@ -35,16 +35,14 @@ function readStoredTheme(): Theme {
 		if ( stored === 'light' || stored === 'dark' || stored === 'system' ) {
 			return stored;
 		}
-	} catch {
-	}
+	} catch {}
 	return 'system';
 }
 
 function persistTheme( theme: Theme ): void {
 	try {
 		localStorage.setItem( STORAGE_KEY, theme );
-	} catch {
-	}
+	} catch {}
 
 	const nonce = window.zexstData?.nonce;
 	if ( nonce ) {
@@ -55,9 +53,7 @@ function persistTheme( theme: Theme ): void {
 				'X-WP-Nonce': nonce,
 			},
 			body: JSON.stringify( { theme } ),
-		} ).catch( () => {
-			
-		} );
+		} ).catch( () => {} );
 	}
 }
 

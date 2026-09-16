@@ -49,7 +49,9 @@ export function buildColumns(
 				return (
 					<div className="flex items-center justify-center px-[3px]">
 						<Checkbox
-							checked={ someChecked ? 'indeterminate' : allChecked }
+							checked={
+								someChecked ? 'indeterminate' : allChecked
+							}
 							onCheckedChange={ ( checked ) =>
 								onToggleAll( allPageIds, !! checked )
 							}

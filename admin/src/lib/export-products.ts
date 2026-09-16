@@ -48,7 +48,7 @@ export function productsToRows< T extends Product >(
 					nameTrimLength && val.length > nameTrimLength
 						? val.slice( 0, nameTrimLength ) + '…'
 						: val;
-						
+
 				return p.parent_id
 					? `${ CHILD_NAME_PREFIX }${ trimmed }`
 					: trimmed;

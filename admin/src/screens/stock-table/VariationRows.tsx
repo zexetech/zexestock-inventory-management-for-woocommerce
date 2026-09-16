@@ -280,7 +280,9 @@ export function VariationRows( {
 				<TableRow
 					key={ variation.id }
 					data-state={
-						selectedIds?.has( variation.id ) ? 'selected' : undefined
+						selectedIds?.has( variation.id )
+							? 'selected'
+							: undefined
 					}
 					className="!bg-row-child-bg hover:!bg-row-child-bg-hover"
 				>

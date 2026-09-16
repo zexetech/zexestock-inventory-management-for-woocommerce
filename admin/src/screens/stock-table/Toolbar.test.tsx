@@ -59,6 +59,7 @@ describe( 'Toolbar — Clear filters placement and behavior', () => {
 		} );
 
 		const position = clearButton.compareDocumentPosition( searchInput );
+		// eslint-disable-next-line no-bitwise -- DOM bitmask flag check against compareDocumentPosition
 		expect( position & Node.DOCUMENT_POSITION_FOLLOWING ).toBeTruthy();
 	} );
 

@@ -11,7 +11,10 @@ jest.mock( './ExportDialog', () => ( { ExportDialog: () => null } ) );
 
 jest.mock( '@/hooks/useProducts' );
 jest.mock( '@/hooks/useBatchSetManageStock', () => ( {
-	useBatchSetManageStock: () => ( { mutateAsync: jest.fn(), isPending: false } ),
+	useBatchSetManageStock: () => ( {
+		mutateAsync: jest.fn(),
+		isPending: false,
+	} ),
 } ) );
 jest.mock( 'sonner', () => ( {
 	toast: { success: jest.fn(), error: jest.fn(), warning: jest.fn() },
