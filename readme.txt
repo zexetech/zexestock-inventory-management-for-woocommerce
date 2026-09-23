@@ -2,9 +2,9 @@
 Contributors: aless1o
 Tags: woocommerce inventory management, woocommerce inventory tracking, woocommerce inventory manager, manage inventory woocommerce, woocommerce stock management
 Requires at least: 6.4
-Tested up to: 7.1
+Tested up to: 7.1.2
 Requires PHP: 8.0
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,9 @@ Privacy policy: [https://freemius.com/privacy/](https://freemius.com/privacy/)
 
 == Changelog ==
 
+= 1.1.2 =
+* Tested up to WordPress 7.1.2 and WooCommerce 11.1.2.
+
 = 1.1.1 =
 * Fix: corrected the Pro pricing link in the plugin description.
 
@@ -250,6 +253,9 @@ Privacy policy: [https://freemius.com/privacy/](https://freemius.com/privacy/)
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Confirmed compatibility with WordPress 7.1.2 and WooCommerce 11.1.2.
 
 = 1.1.1 =
 Minor fix: corrected the Pro pricing link.
