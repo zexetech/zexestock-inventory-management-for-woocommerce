@@ -102,6 +102,24 @@ class ZEXST_Plugin {
 			'zexst-settings',
 			array( 'ZEXST_Admin_Page', 'render_settings' )
 		);
+
+		add_submenu_page(
+			'zexestock',
+			__( 'Suppliers', 'zexestock-inventory-management-for-woocommerce' ),
+			__( 'Suppliers', 'zexestock-inventory-management-for-woocommerce' ),
+			'manage_woocommerce',
+			'zexst-suppliers',
+			array( 'ZEXST_Admin_Page', 'render_suppliers' )
+		);
+
+		add_submenu_page(
+			'zexestock',
+			__( 'Purchase Orders', 'zexestock-inventory-management-for-woocommerce' ),
+			__( 'Purchase Orders', 'zexestock-inventory-management-for-woocommerce' ),
+			'manage_woocommerce',
+			'zexst-purchase-orders',
+			array( 'ZEXST_Admin_Page', 'render_purchase_orders' )
+		);
 	}
 
 	public function register_wp_dashboard_widget(): void {
@@ -121,10 +139,14 @@ class ZEXST_Plugin {
 			'toplevel_page_zexestock',
 			'zexestock_page_zexst-stock-manager',
 			'zexestock_page_zexst-settings',
+			'zexestock_page_zexst-suppliers',
+			'zexestock_page_zexst-purchase-orders',
 		);
-		$dashboard_screens   = array( 'toplevel_page_zexestock' );
-		$stock_table_screens = array( 'zexestock_page_zexst-stock-manager' );
-		$settings_screens    = array( 'zexestock_page_zexst-settings' );
+		$dashboard_screens      = array( 'toplevel_page_zexestock' );
+		$stock_table_screens    = array( 'zexestock_page_zexst-stock-manager' );
+		$settings_screens       = array( 'zexestock_page_zexst-settings' );
+		$suppliers_screens      = array( 'zexestock_page_zexst-suppliers' );
+		$purchase_order_screens = array( 'zexestock_page_zexst-purchase-orders' );
 
 		if ( ! in_array( $hook_suffix, $all_screens, true ) ) {
 			return;
@@ -270,6 +292,90 @@ class ZEXST_Plugin {
 						'id'   => get_current_user_id(),
 						'name' => wp_get_current_user()->display_name,
 					),
+				)
+			);
+		}
+
+		if ( in_array( $hook_suffix, $suppliers_screens, true ) ) {
+			$suppliers_asset_file = ZEXST_PLUGIN_DIR . 'admin/build/suppliers.asset.php';
+			$suppliers_asset      = file_exists( $suppliers_asset_file )
+				? require $suppliers_asset_file
+				: array( 'dependencies' => array(), 'version' => ZEXST_VERSION );
+
+			wp_enqueue_script(
+				'zexst-suppliers',
+				ZEXST_PLUGIN_URL . 'admin/build/suppliers.js',
+				$suppliers_asset['dependencies'],
+				$suppliers_asset['version'],
+				true
+			);
+
+			wp_enqueue_style(
+				'zexst-suppliers',
+				ZEXST_PLUGIN_URL . 'admin/build/suppliers.css',
+				array(),
+				$suppliers_asset['version']
+			);
+
+			// The supplier form's country/currency pickers use WooCommerce's own lists.
+			$zexst_wc_countries  = ( function_exists( 'WC' ) && class_exists( 'WC_Countries' ) && WC()->countries instanceof \WC_Countries )
+				? (array) WC()->countries->get_countries()
+				: array();
+			$zexst_wc_currencies = function_exists( 'get_woocommerce_currencies' )
+				? (array) get_woocommerce_currencies()
+				: array();
+
+			wp_localize_script(
+				'zexst-suppliers',
+				'zexstData',
+				array(
+					'nonce'       => wp_create_nonce( 'wp_rest' ),
+					'restNonce'   => wp_create_nonce( 'wp_rest' ),
+					'restUrl'     => rest_url( 'zexestock/v1/' ),
+					'currentUser' => array(
+						'id'   => get_current_user_id(),
+						'name' => wp_get_current_user()->display_name,
+					),
+					'currency'    => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
+					'countries'   => $zexst_wc_countries,
+					'currencies'  => $zexst_wc_currencies,
+				)
+			);
+		}
+
+		if ( in_array( $hook_suffix, $purchase_order_screens, true ) ) {
+			$po_asset_file = ZEXST_PLUGIN_DIR . 'admin/build/purchase-orders.asset.php';
+			$po_asset      = file_exists( $po_asset_file )
+				? require $po_asset_file
+				: array( 'dependencies' => array(), 'version' => ZEXST_VERSION );
+
+			wp_enqueue_script(
+				'zexst-purchase-orders',
+				ZEXST_PLUGIN_URL . 'admin/build/purchase-orders.js',
+				$po_asset['dependencies'],
+				$po_asset['version'],
+				true
+			);
+
+			wp_enqueue_style(
+				'zexst-purchase-orders',
+				ZEXST_PLUGIN_URL . 'admin/build/purchase-orders.css',
+				array(),
+				$po_asset['version']
+			);
+
+			wp_localize_script(
+				'zexst-purchase-orders',
+				'zexstData',
+				array(
+					'nonce'       => wp_create_nonce( 'wp_rest' ),
+					'restNonce'   => wp_create_nonce( 'wp_rest' ),
+					'restUrl'     => rest_url( 'zexestock/v1/' ),
+					'currentUser' => array(
+						'id'   => get_current_user_id(),
+						'name' => wp_get_current_user()->display_name,
+					),
+					'currency'    => html_entity_decode( get_woocommerce_currency_symbol(), ENT_QUOTES | ENT_HTML5, 'UTF-8' ),
 				)
 			);
 		}

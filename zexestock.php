@@ -4,7 +4,7 @@
  * Plugin Name:       ZexeStock | Inventory Management for WooCommerce
  * Plugin URI:        https://zexelabs.com
  * Description:       The all-in-one stock management plugin for WooCommerce sellers.
- * Version:           1.1.1
+ * Version:           1.2.0
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * Author:            ZexeLabs
@@ -13,6 +13,8 @@
  * Text Domain:       zexestock-inventory-management-for-woocommerce
  * Domain Path:       /languages
  * Requires Plugins:  woocommerce
+ * WC requires at least: 6.4
+ * WC tested up to:   11.1.2
  *
  * @package ZexeStock
  *
@@ -48,7 +50,7 @@ if ( function_exists( 'zexst_fs' ) ) {
         zexst_fs();
         do_action( 'zexst_fs_loaded' );
     }
-    define( 'ZEXST_VERSION', '1.1.1' );
+    define( 'ZEXST_VERSION', '1.2.0' );
     define( 'ZEXST_PLUGIN_FILE', __FILE__ );
     define( 'ZEXST_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
     define( 'ZEXST_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -66,6 +68,9 @@ if ( function_exists( 'zexst_fs' ) ) {
     require_once ZEXST_PLUGIN_DIR . 'includes/class-analytics.php';
     require_once ZEXST_PLUGIN_DIR . 'includes/class-alerts.php';
     require_once ZEXST_PLUGIN_DIR . 'includes/class-ajax-handler.php';
+    require_once ZEXST_PLUGIN_DIR . 'includes/class-supplier-manager.php';
+    require_once ZEXST_PLUGIN_DIR . 'includes/class-supplier-product-manager.php';
+    require_once ZEXST_PLUGIN_DIR . 'includes/class-purchase-order-manager.php';
     require_once ZEXST_PLUGIN_DIR . 'includes/class-rest-api.php';
     require_once ZEXST_PLUGIN_DIR . 'includes/class-plugin.php';
     register_activation_hook( __FILE__, array('ZEXST_Installer', 'activate') );

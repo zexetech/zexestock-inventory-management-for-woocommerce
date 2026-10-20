@@ -409,24 +409,28 @@ export function StockTableScreen() {
 		params.pageSize,
 	] );
 
-	const { data, isLoading, isFetching, isError, refetch } = useProducts( {
-		page: params.page,
-		pageSize: params.pageSize,
-		search: params.search,
-		searchField: params.searchField,
-		sortBy: params.sortBy,
-		sortOrder: params.sortOrder,
-		stock_status: params.stock_status,
-		category: params.category,
-		product_type: params.product_type,
-		filters: '',
-		include_velocity: false,
-	} );
+	const { data, dataUpdatedAt, isLoading, isFetching, isError, refetch } =
+		useProducts( {
+			page: params.page,
+			pageSize: params.pageSize,
+			search: params.search,
+			searchField: params.searchField,
+			sortBy: params.sortBy,
+			sortOrder: params.sortOrder,
+			stock_status: params.stock_status,
+			category: params.category,
+			product_type: params.product_type,
+			filters: '',
+			include_velocity: false,
+		} );
 
 	const products = React.useMemo( () => data?.data ?? [], [ data?.data ] );
 	const meta = data?.meta;
 	const pageCount = meta?.total_pages ?? 1;
 
+	// Keyed on dataUpdatedAt, not data: a refetch that returns identical rows
+	// keeps the same `data` reference (structural sharing), and the variations
+	// invalidated by a save would then never be re-seeded.
 	React.useEffect( () => {
 		if ( ! data ) {
 			return;
@@ -439,7 +443,7 @@ export function StockTableScreen() {
 				);
 			}
 		} );
-	}, [ data, queryClient ] );
+	}, [ data, dataUpdatedAt, queryClient ] );
 
 	productsRef.current = products;
 

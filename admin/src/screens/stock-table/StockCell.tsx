@@ -78,9 +78,14 @@ function StockCellPopover( { product }: { product: Product } ) {
 	} );
 	const isSaving = adjustMutation.isPending;
 
+	// Read the latest stock on open without re-running (and clobbering the
+	// user's input) whenever the quantity changes while the popover is open.
+	const stockQtyRef = React.useRef( product.stock_qty );
+	stockQtyRef.current = product.stock_qty;
+
 	React.useEffect( () => {
 		if ( open ) {
-			setInputValue( String( product.stock_qty ?? 0 ) );
+			setInputValue( String( stockQtyRef.current ?? 0 ) );
 			setInlineError( null );
 			setTimeout( () => inputRef.current?.focus(), 0 );
 		}

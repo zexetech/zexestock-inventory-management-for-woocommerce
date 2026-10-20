@@ -27,6 +27,10 @@ declare global {
 		currency?: string;
 		ajaxUrl?: string;
 		pdfObjectUrl?: string;
+		/** WooCommerce country code => name (suppliers screen only). */
+		countries?: Record< string, string >;
+		/** WooCommerce currency code => name (suppliers screen only). */
+		currencies?: Record< string, string >;
 	}
 
 	interface Window {
