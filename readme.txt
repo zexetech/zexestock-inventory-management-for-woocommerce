@@ -250,6 +250,8 @@ Privacy policy: [https://freemius.com/privacy/](https://freemius.com/privacy/)
 15. Spreadsheet mode with per-row sale scheduling while bulk-editing (Pro)
 16. Full audit log with search, date range, user, and type filters (Pro)
 17. Export stock data to PDF, CSV, or XLSX with custom column selection (PDF is free; CSV/XLSX export is Pro)
+18. Suppliers — list of suppliers
+19. Purchase Orders — list of purchase orders with supplier, status, and totals
 
 == Changelog ==
 
