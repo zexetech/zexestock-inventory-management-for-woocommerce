@@ -716,7 +716,7 @@ class ZEXST_Purchase_Order_Manager {
 		return self::get_po( $id );
 	}
 
-	public static function delete_po( int $id ): true|\WP_Error {
+	public static function delete_po( int $id ): bool|\WP_Error {
 		global $wpdb;
 
 		$existing = self::get_po( $id );

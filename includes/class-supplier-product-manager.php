@@ -246,7 +246,7 @@ class ZEXST_Supplier_Product_Manager {
 		);
 	}
 
-	public static function remove_for_product( int $product_id ): true|\WP_Error {
+	public static function remove_for_product( int $product_id ): bool|\WP_Error {
 		global $wpdb;
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- plugin's own table; table names are $wpdb->prefix plus a literal suffix and all values are bound via $wpdb->prepare() or $wpdb format arrays.

@@ -264,7 +264,7 @@ class ZEXST_Supplier_Manager {
 		return self::get_supplier( $id );
 	}
 
-	public static function delete_supplier( int $id ): true|\WP_Error {
+	public static function delete_supplier( int $id ): bool|\WP_Error {
 		global $wpdb;
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- plugin's own table; table names are $wpdb->prefix plus a literal suffix and all values are bound via $wpdb->prepare() or $wpdb format arrays.
