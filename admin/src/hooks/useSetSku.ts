@@ -75,6 +75,9 @@ export function useSetSku( options?: UseSetSkuOptions ) {
 			void queryClient.invalidateQueries( { queryKey: [ 'products' ] } );
 			void queryClient.invalidateQueries( {
 				queryKey: [ 'variations' ],
+				// The products refetch embeds variations and re-seeds this cache;
+				// refetching every expanded parent here is one request per row.
+				refetchType: 'none',
 			} );
 			void queryClient.invalidateQueries( {
 				queryKey: [ 'grouped-children' ],

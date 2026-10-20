@@ -30,3 +30,5 @@ Thumbs.db
 
 # Claude Code local runtime
 .claude/settings.local.json
+
+.serena/

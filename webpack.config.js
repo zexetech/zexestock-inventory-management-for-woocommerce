@@ -12,6 +12,8 @@ module.exports = ( env, argv ) => ( {
 		'dashboard':   path.resolve( __dirname, 'admin/src/screens/dashboard/index.tsx' ),
 		'stock-table': path.resolve( __dirname, 'admin/src/screens/stock-table/index.tsx' ),
 		'settings':    path.resolve( __dirname, 'admin/src/screens/settings/index.tsx' ),
+		'suppliers':   path.resolve( __dirname, 'admin/src/screens/suppliers/index.tsx' ),
+		'purchase-orders': path.resolve( __dirname, 'admin/src/screens/purchase-orders/index.tsx' ),
 	},
 
 	output: {

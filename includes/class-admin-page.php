@@ -118,6 +118,20 @@ class ZEXST_Admin_Page {
 
 		include ZEXST_PLUGIN_DIR . 'admin/views/settings.php';
 	}
+
+	public static function render_suppliers(): void {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'zexestock-inventory-management-for-woocommerce' ) );
+		}
+		include ZEXST_PLUGIN_DIR . 'admin/views/suppliers.php';
+	}
+
+	public static function render_purchase_orders(): void {
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			wp_die( esc_html__( 'You do not have permission to access this page.', 'zexestock-inventory-management-for-woocommerce' ) );
+		}
+		include ZEXST_PLUGIN_DIR . 'admin/views/purchase-orders.php';
+	}
 }
 
 function zexst_settings_defaults(): array {

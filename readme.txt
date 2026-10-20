@@ -1,10 +1,10 @@
 === ZexeStock | Inventory Management for WooCommerce ===
 Contributors: aless1o
-Tags: woocommerce inventory management, woocommerce inventory tracking, woocommerce inventory manager, manage inventory woocommerce, woocommerce stock management
+Tags: woocommerce inventory management, bulk edit, inventory, stock manager, woocommerce stock management
 Requires at least: 6.4
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,9 +18,9 @@ Stop opening hundreds of WooCommerce product pages just to adjust stock.
 
 ZexeStock is a fast WooCommerce inventory management plugin that lets you search, edit, and track stock across thousands of products from one screen — instead of clicking into a separate edit page for every single one.
 
-Inline stock and price editing, server-side search across 10,000+ products, and full variable product support come standard in the free version — no trial, no credit card required.
+Inline stock and price editing, server-side search across 10,000+ products, and full variable product support come standard in the free version.
 
-Whether you're running a small online shop or a warehouse with 50,000+ products, ZexeStock makes everyday stock management dramatically faster, with color-coded stock visibility, PDF exports, and a built-in analytics widget alongside its core editing tools.
+Whether you're running a small online shop or a warehouse with 10,000+ products, ZexeStock makes everyday stock management dramatically faster, with color-coded stock visibility, PDF exports, and a built-in analytics widget alongside its core editing tools.
 
 Built for busy store owners, warehouse teams, and inventory managers, ZexeStock removes the friction from managing inventory in WooCommerce so you spend less time clicking through product pages and more time running your business.
 
@@ -58,7 +58,7 @@ Instead of jumping between dozens of product pages, your entire inventory is sea
 
 = Free and Powerful Out of the Box =
 
-ZexeStock's free version is a complete WooCommerce inventory management plugin on its own: fast stock editing, searchable inventory, variable product support, bulk stock-tracking toggle, PDF export, and more. 
+ZexeStock's free version is a complete WooCommerce inventory management plugin on its own: fast stock editing, searchable inventory, variable product support, bulk stock-tracking toggle, suppliers and purchase orders, PDF export, and more.
 
 = ✅ Free Features =
 
@@ -78,6 +78,15 @@ ZexeStock's free version is a complete WooCommerce inventory management plugin o
 ✔ Per-product low-stock threshold override — set a custom threshold per product
 ✔ Analytics dashboard (basic) — stock-tier counts (in-stock/low-stock/out-of-stock) on the WordPress dashboard summary widget
 ✔ PDF export — generate a stock report in one click
+
+**Suppliers & Purchase Orders**
+
+✔ Supplier directory — store contact details, country, currency, payment terms, default discount and tax rates, and custom fields for each supplier
+✔ Supplier product links — link products and variations to a supplier, with the supplier's own SKU and cost
+✔ Purchase orders — create, edit, and send purchase orders with discount, tax, fees, and shipping calculated automatically
+✔ Receive stock — receive a purchase order in full or in parts; received quantities are added to WooCommerce stock automatically
+✔ Purchase price update — optionally write a purchase order's unit cost back to the product's purchase price
+✔ Purchase order PDF — download a ready-to-send PDF of any purchase order
 
 **Safe & Reliable**
 
@@ -139,7 +148,7 @@ Yes. ZexeStock is a WooCommerce inventory management plugin designed to make sto
 
 = What can I do with the free version? =
 
-A lot. You get a searchable, paginated stock table for 10,000+ products, inline stock adjustments, quick +/− buttons, inline price and product data editing (regular price, sale price, purchase price, barcode, supplier SKU), full variable product support, color-coded stock status, per-product low-stock thresholds, a basic analytics widget, PDF export, negative stock prevention, optimistic concurrency control, role-based access, and HPOS compatibility — no trial, no credit card required. You can also select multiple products and bulk-toggle stock tracking on or off for all of them at once, for free. When you need more, Pro adds bulk stock/price editing, a full audit log, spreadsheet mode, advanced analytics, and more.
+A lot. You get a searchable, paginated stock table for 10,000+ products, inline stock adjustments, quick +/− buttons, inline price and product data editing (regular price, sale price, purchase price, barcode, supplier SKU), full variable product support, color-coded stock status, per-product low-stock thresholds, suppliers and purchase orders (with stock receiving and PDF purchase orders), a basic analytics widget, PDF export, negative stock prevention, optimistic concurrency control, role-based access, and HPOS compatibility — no trial, no credit card required. You can also select multiple products and bulk-toggle stock tracking on or off for all of them at once, for free. When you need more, Pro adds bulk stock/price editing, a full audit log, spreadsheet mode, advanced analytics, and more.
 
 = Can I quickly adjust stock for individual products? =
 
@@ -148,6 +157,10 @@ Yes. Use the quick +/− buttons for one-click increments, or type a value direc
 = How many products can I edit at once? =
 
 You can select multiple products and bulk-toggle "manage stock" on or off for all of them at once — that's included free. For everything else, you edit one product row at a time in the free version — inline, with no page reload, and fast enough thanks to server-side search and pagination that stay responsive even with 10,000+ products. If you need to apply a stock or price change to many products in a single action, ZexeStock Pro adds a full bulk stock/price bar and keyboard-driven spreadsheet mode for editing WooCommerce catalogs at scale (Pro).
+
+= Can I manage suppliers and purchase orders? =
+
+Yes, for free. Add your suppliers under ZexeStock → Suppliers and link the products you buy from each one. Under ZexeStock → Purchase Orders you can create a purchase order, download it as a PDF, mark it as sent, and receive it in full or in parts. Received quantities are added to your WooCommerce stock automatically.
 
 = Can I manage inventory for thousands of WooCommerce products? =
 
@@ -240,6 +253,16 @@ Privacy policy: [https://freemius.com/privacy/](https://freemius.com/privacy/)
 
 == Changelog ==
 
+= 1.2.0 =
+* New: Suppliers screen to manage supplier details and link products and variations to suppliers.
+* New: Purchase Orders screen to create, edit, send, cancel, and receive purchase orders. Received quantities are added to stock.
+* New: downloadable PDF for purchase orders.
+* New: option to write a purchase order line's unit cost back to the product's purchase price.
+* Fix: the Low Stock quick filter and the In Stock / Low Stock status filters matched variable products by the parent's own stock instead of their variations.
+* Fix: the stock table no longer sends a separate request for every expanded variable product after a save.
+* Update: the "delete data on uninstall" option now also removes the supplier and purchase order tables.
+* Tested up to WordPress 7.1.3 and WooCommerce 11.1.2.
+
 = 1.1.1 =
 * Fix: corrected the Pro pricing link in the plugin description.
 
@@ -250,6 +273,9 @@ Privacy policy: [https://freemius.com/privacy/](https://freemius.com/privacy/)
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+Adds free suppliers and purchase orders, and fixes the Low Stock quick filter for variable products.
 
 = 1.1.1 =
 Minor fix: corrected the Pro pricing link.

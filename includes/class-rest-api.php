@@ -165,6 +165,319 @@ class ZEXST_REST_API {
             'callback'            => array($this, 'save_settings'),
             'permission_callback' => array($this, 'check_settings_permission'),
         ) );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/suppliers',
+            array(
+                array(
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => array( $this, 'list_suppliers' ),
+                    'permission_callback' => array( $this, 'check_supplier_permission' ),
+                    'args'                => array(
+                        'search'   => array( 'type' => 'string' ),
+                        'status'   => array( 'type' => 'string', 'enum' => array( 'active', 'inactive' ) ),
+                        'page'     => array( 'type' => 'integer', 'minimum' => 1, 'default' => 1 ),
+                        'per_page' => array( 'type' => 'integer', 'minimum' => 1, 'maximum' => 100, 'default' => 20 ),
+                    ),
+                ),
+                array(
+                    'methods'             => WP_REST_Server::CREATABLE,
+                    'callback'            => array( $this, 'create_supplier' ),
+                    'permission_callback' => array( $this, 'check_supplier_permission' ),
+                    'args'                => $this->supplier_field_args(),
+                ),
+            )
+        );
+
+        // GET /suppliers/assignable-users — registered as its own literal path,
+        // ahead of the /suppliers/(?P<id>\d+) block below, so it isn't shadowed
+        // by the \d+ pattern (matching how low-stock-products/products are
+        // already split out as their own routes rather than folded into {id}).
+        register_rest_route(
+            self::NAMESPACE,
+            '/suppliers/assignable-users',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'get_assignable_users' ),
+                'permission_callback' => array( $this, 'check_supplier_permission' ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/suppliers/(?P<id>\d+)',
+            array(
+                array(
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => array( $this, 'get_supplier' ),
+                    'permission_callback' => array( $this, 'check_supplier_permission' ),
+                    'args'                => array( 'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                ),
+                array(
+                    'methods'             => 'PATCH',
+                    'callback'            => array( $this, 'update_supplier' ),
+                    'permission_callback' => array( $this, 'check_supplier_permission' ),
+                    'args'                => array_merge(
+                        array( 'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                        $this->supplier_field_args()
+                    ),
+                ),
+                array(
+                    'methods'             => WP_REST_Server::DELETABLE,
+                    'callback'            => array( $this, 'delete_supplier' ),
+                    'permission_callback' => array( $this, 'check_supplier_permission' ),
+                    'args'                => array( 'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/suppliers/(?P<id>\d+)/low-stock-products',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'get_low_stock_products_for_supplier' ),
+                'permission_callback' => array( $this, 'check_supplier_permission' ),
+                'args'                => array(
+                    'id'      => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ),
+                    'exclude' => array( 'type' => 'integer', 'minimum' => 1 ), // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude -- REST arg name, not a get_posts() call.
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/suppliers/(?P<id>\d+)/products',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'list_products_for_supplier' ),
+                'permission_callback' => array( $this, 'check_supplier_permission' ),
+                'args'                => array(
+                    'id'       => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ),
+                    'page'     => array( 'type' => 'integer', 'minimum' => 1, 'default' => 1 ),
+                    'per_page' => array( 'type' => 'integer', 'minimum' => 1, 'maximum' => 200, 'default' => 20 ),
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/products/(?P<id>\d+)/supplier',
+            array(
+                array(
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => array( $this, 'get_product_supplier' ),
+                    'permission_callback' => array( $this, 'check_supplier_permission' ),
+                    'args'                => array( 'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                ),
+                array(
+                    'methods'             => WP_REST_Server::CREATABLE,
+                    'callback'            => array( $this, 'set_product_supplier' ),
+                    'permission_callback' => array( $this, 'check_supplier_permission' ),
+                    'args'                => array(
+                        'id'          => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ),
+                        'supplier_id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ),
+                    ),
+                ),
+                array(
+                    'methods'             => WP_REST_Server::DELETABLE,
+                    'callback'            => array( $this, 'remove_product_supplier' ),
+                    'permission_callback' => array( $this, 'check_supplier_permission' ),
+                    'args'                => array( 'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                ),
+            )
+        );
+
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/purchase-orders',
+            array(
+                array(
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => array( $this, 'list_pos' ),
+                    'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                    'args'                => array(
+                        'status'      => array( 'type' => 'string', 'enum' => array( 'draft', 'sent', 'partially_received', 'received', 'cancelled' ) ),
+                        'supplier_id' => array( 'type' => 'integer', 'minimum' => 1 ),
+                        'search'      => array( 'type' => 'string' ),
+                        'page'        => array( 'type' => 'integer', 'minimum' => 1, 'default' => 1 ),
+                        'per_page'    => array( 'type' => 'integer', 'minimum' => 1, 'maximum' => 100, 'default' => 20 ),
+                    ),
+                ),
+                array(
+                    'methods'             => WP_REST_Server::CREATABLE,
+                    'callback'            => array( $this, 'create_po' ),
+                    'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                    'args'                => array_merge(
+                        array( 'supplier_id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                        $this->po_field_args( true )
+                    ),
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/purchase-orders/next-number',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'get_next_po_number' ),
+                'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/purchase-orders/number-available',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( $this, 'check_po_number_available' ),
+                'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                'args'                => array(
+                    'po_number'  => array( 'type' => 'string', 'required' => true, 'maxLength' => \ZEXST_Constants::MAX_PO_NUMBER_LENGTH ),
+                    'exclude_id' => array( 'type' => 'integer', 'minimum' => 0, 'default' => 0 ),
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/purchase-orders/(?P<id>\d+)',
+            array(
+                array(
+                    'methods'             => WP_REST_Server::READABLE,
+                    'callback'            => array( $this, 'get_po' ),
+                    'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                    'args'                => array( 'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                ),
+                array(
+                    'methods'             => 'PATCH',
+                    'callback'            => array( $this, 'update_po' ),
+                    'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                    'args'                => array_merge(
+                        array( 'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                        $this->po_field_args( false )
+                    ),
+                ),
+                array(
+                    'methods'             => WP_REST_Server::DELETABLE,
+                    'callback'            => array( $this, 'delete_po' ),
+                    'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                    'args'                => array( 'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ) ),
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/purchase-orders/(?P<id>\d+)/send',
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'send_po' ),
+                'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                'args'                => array(
+                    'id' => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ),
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/purchase-orders/(?P<id>\d+)/receive',
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'receive_po_items' ),
+                'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                'args'                => array(
+                    'id'    => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ),
+                    'items' => array( 'type' => 'array', 'required' => true ),
+                ),
+            )
+        );
+
+        register_rest_route(
+            self::NAMESPACE,
+            '/purchase-orders/(?P<id>\d+)/cancel',
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'cancel_po' ),
+                'permission_callback' => array( $this, 'check_purchase_order_permission' ),
+                'args'                => array(
+                    'id'     => array( 'type' => 'integer', 'minimum' => 1, 'required' => true ),
+                    'reason' => array( 'type' => 'string', 'maxLength' => \ZEXST_Constants::MAX_PO_NOTES_LENGTH ),
+                ),
+            )
+        );
+    }
+
+
+    /**
+     * Field schema shared by POST /suppliers and PATCH /suppliers/{id}, so the
+     * edit path gets the same up-front validation as create.
+     */
+    private function supplier_field_args(): array {
+        return array(
+            'name'               => array( 'type' => 'string', 'required' => true, 'maxLength' => \ZEXST_Constants::MAX_SUPPLIER_NAME_LENGTH ),
+            'contact_name'       => array( 'type' => 'string' ),
+            'email'              => array( 'type' => 'string' ),
+            'phone'              => array( 'type' => 'string' ),
+            'address_line_1'     => array( 'type' => 'string' ),
+            'address_line_2'     => array( 'type' => 'string' ),
+            'city'               => array( 'type' => 'string' ),
+            'state'              => array( 'type' => 'string' ),
+            'postal_code'        => array( 'type' => 'string' ),
+            'country'            => array( 'type' => 'string' ),
+            'notes'              => array( 'type' => 'string', 'maxLength' => \ZEXST_Constants::MAX_SUPPLIER_NOTES_LENGTH ),
+            'tax_number'         => array( 'type' => 'string', 'maxLength' => 50 ),
+            'fax'                => array( 'type' => 'string', 'maxLength' => 50 ),
+            'ordering_url'       => array( 'type' => 'string', 'maxLength' => 255 ),
+            'ordering_email'     => array( 'type' => 'string', 'maxLength' => 255 ),
+            'description'        => array( 'type' => 'string' ),
+            // Nullable: the supplier form sends null for "not set", and WP's
+            // schema validation rejects null for a bare integer/number type.
+            'assigned_user_id'   => array( 'type' => array( 'integer', 'null' ), 'minimum' => 1 ),
+            'discount_percent'   => array( 'type' => array( 'number', 'null' ), 'minimum' => 0, 'maximum' => \ZEXST_Constants::MAX_DISCOUNT_PERCENT ),
+            'tax_rate_percent'   => array( 'type' => array( 'number', 'null' ), 'minimum' => 0, 'maximum' => \ZEXST_Constants::MAX_TAX_RATE_PERCENT ),
+            'days_to_cancel'     => array( 'type' => array( 'integer', 'null' ), 'minimum' => 0 ),
+            'cancelation_policy' => array( 'type' => 'string' ),
+            'custom_fields'      => array(
+                'type'  => 'array',
+                'items' => array(
+                    'type'                 => 'object',
+                    'properties'           => array(
+                        'label' => array( 'type' => 'string', 'maxLength' => \ZEXST_Constants::MAX_SUPPLIER_CUSTOM_FIELD_LENGTH ),
+                        'value' => array( 'type' => 'string', 'maxLength' => \ZEXST_Constants::MAX_SUPPLIER_CUSTOM_FIELD_LENGTH ),
+                    ),
+                    'additionalProperties' => false,
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Field schema shared by POST /purchase-orders and PATCH /purchase-orders/{id}.
+     * Items are only mandatory on create; PATCH may omit them to keep the lines.
+     */
+    private function po_field_args( bool $items_required ): array {
+        $items = array( 'type' => 'array' );
+        if ( $items_required ) {
+            $items['required'] = true;
+        }
+
+        return array(
+            'items'            => $items,
+            'po_number'        => array( 'type' => 'string', 'maxLength' => \ZEXST_Constants::MAX_PO_NUMBER_LENGTH ),
+            'internal_notes'   => array( 'type' => 'string', 'maxLength' => \ZEXST_Constants::MAX_PO_NOTES_LENGTH ),
+            'supplier_notes'   => array( 'type' => 'string', 'maxLength' => \ZEXST_Constants::MAX_PO_NOTES_LENGTH ),
+            'email_to'         => array( 'type' => 'string' ),
+            'po_date'          => array( 'type' => 'string' ),
+            'discount_percent' => array( 'type' => 'number', 'minimum' => 0, 'maximum' => \ZEXST_Constants::MAX_DISCOUNT_PERCENT ),
+            'tax_rate_percent' => array( 'type' => 'number', 'minimum' => 0, 'maximum' => \ZEXST_Constants::MAX_TAX_RATE_PERCENT ),
+            'supplier_fee'     => array( 'type' => 'number', 'minimum' => 0, 'maximum' => \ZEXST_Constants::MAX_SUPPLIER_FEE ),
+            'shipping_cost'    => array( 'type' => 'number', 'minimum' => 0, 'maximum' => \ZEXST_Constants::MAX_SHIPPING_COST ),
+        );
     }
 
     private function check_admin() : bool|\WP_Error {
@@ -186,6 +499,13 @@ class ZEXST_REST_API {
     }
 
     public function check_settings_permission() : bool|\WP_Error {
+        return $this->check_admin();
+    }
+    public function check_supplier_permission(): bool|\WP_Error {
+        return $this->check_admin();
+    }
+
+    public function check_purchase_order_permission(): bool|\WP_Error {
         return $this->check_admin();
     }
 
@@ -217,7 +537,9 @@ class ZEXST_REST_API {
         ), 200);
         $response->header( 'X-WP-Total', $result['total'] );
         $response->header( 'X-WP-TotalPages', $result['total_pages'] );
-        $etag_data = implode( ',', array_column( $result['data'], 'id' ) ) . '|' . implode( ',', array_column( $result['data'], 'stock_qty' ) );
+        // Hash the whole payload: rows embed their variations and carry price/SKU/meta,
+        // so an id+stock tag would 304 an outdated body after editing any of those.
+        $etag_data = (string) wp_json_encode( $result['data'] );
         return $this->add_etag_headers( $response, $etag_data, $request );
     }
 
@@ -231,7 +553,7 @@ class ZEXST_REST_API {
         }
         $variations = ZEXST_Stock_Manager::get_product_variations_for_rest( $product_id );
         $response = new \WP_REST_Response($variations, 200);
-        $etag_data = implode( ',', array_column( $variations, 'id' ) ) . '|' . implode( ',', array_column( $variations, 'stock_qty' ) );
+        $etag_data = (string) wp_json_encode( $variations );
         return $this->add_etag_headers( $response, $etag_data, $request );
     }
 
@@ -722,4 +1044,269 @@ class ZEXST_REST_API {
         return $this->get_settings();
     }
 
+    /**
+     * GET /suppliers/assignable-users
+     *
+     * Every WP user holding manage_woocommerce — the pool the supplier
+     * "Assigned To" field can point at. Deliberately not modeled on
+     * get_audit_log_users__premium_only() (which only lists users with
+     * existing audit-log activity) and not Pro-gated: assignment needs every
+     * eligible user, including ones who have never touched a supplier yet.
+     *
+     * @return WP_REST_Response
+     */
+    public function get_assignable_users(): \WP_REST_Response {
+        $cached = get_transient( 'zexst_assignable_users' );
+        if ( false !== $cached ) {
+            return new \WP_REST_Response( $cached, 200 );
+        }
+
+        $wp_users = get_users( array(
+            'capability' => 'manage_woocommerce',
+            'orderby'    => 'display_name',
+            'order'      => 'ASC',
+            'fields'     => array( 'ID', 'display_name', 'user_login' ),
+        ) );
+
+        $users = array_map(
+            static function ( $user ): array {
+                return array(
+                    'id'   => (int) $user->ID,
+                    'name' => $user->display_name ?: $user->user_login,
+                );
+            },
+            $wp_users
+        );
+
+        set_transient( 'zexst_assignable_users', $users, 10 * MINUTE_IN_SECONDS );
+
+        return new \WP_REST_Response( $users, 200 );
+    }
+
+    public function list_suppliers( \WP_REST_Request $request ): \WP_REST_Response {
+        $result = ZEXST_Supplier_Manager::list_suppliers( array(
+            'search'   => $request->get_param( 'search' ) ?: '',
+            'status'   => $request->get_param( 'status' ) ?: '',
+            'page'     => (int) ( $request->get_param( 'page' ) ?: 1 ),
+            'per_page' => (int) ( $request->get_param( 'per_page' ) ?: 20 ),
+        ) );
+
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function get_supplier( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $result = ZEXST_Supplier_Manager::get_supplier( absint( $request->get_param( 'id' ) ) );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function create_supplier( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Supplier_Manager::create_supplier( $request->get_params() );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 201 );
+    }
+
+    public function update_supplier( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Supplier_Manager::update_supplier( absint( $request->get_param( 'id' ) ), $request->get_params() );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function delete_supplier( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Supplier_Manager::delete_supplier( absint( $request->get_param( 'id' ) ) );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( array( 'deleted' => true ), 200 );
+    }
+
+    public function get_low_stock_products_for_supplier( \WP_REST_Request $request ): \WP_REST_Response {
+        $supplier_id = absint( $request->get_param( 'id' ) );
+        $exclude     = absint( $request->get_param( 'exclude' ) ?: 0 );
+
+        $items = ZEXST_Supplier_Product_Manager::get_low_stock_siblings( $supplier_id, $exclude );
+
+        return new \WP_REST_Response( array( 'items' => $items ), 200 );
+    }
+
+    public function list_products_for_supplier( \WP_REST_Request $request ): \WP_REST_Response {
+        $result = ZEXST_Supplier_Product_Manager::list_for_supplier(
+            absint( $request->get_param( 'id' ) ),
+            array(
+                'page'     => (int) ( $request->get_param( 'page' ) ?: 1 ),
+                'per_page' => (int) ( $request->get_param( 'per_page' ) ?: 20 ),
+            )
+        );
+
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function get_product_supplier( \WP_REST_Request $request ): \WP_REST_Response {
+        $result = ZEXST_Supplier_Product_Manager::get_for_product( absint( $request->get_param( 'id' ) ) );
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function set_product_supplier( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Supplier_Product_Manager::set_for_product( absint( $request->get_param( 'id' ) ), $request->get_params() );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function remove_product_supplier( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Supplier_Product_Manager::remove_for_product( absint( $request->get_param( 'id' ) ) );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( array( 'removed' => true ), 200 );
+    }
+
+    public function list_pos( \WP_REST_Request $request ): \WP_REST_Response {
+        $result = ZEXST_Purchase_Order_Manager::list_pos( array(
+            'status'      => $request->get_param( 'status' ) ?: '',
+            'supplier_id' => (int) ( $request->get_param( 'supplier_id' ) ?: 0 ),
+            'search'      => $request->get_param( 'search' ) ?: '',
+            'page'        => (int) ( $request->get_param( 'page' ) ?: 1 ),
+            'per_page'    => (int) ( $request->get_param( 'per_page' ) ?: 20 ),
+        ) );
+
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function get_next_po_number(): \WP_REST_Response {
+        return new \WP_REST_Response( array( 'po_number' => ZEXST_Purchase_Order_Manager::suggest_next_po_number() ), 200 );
+    }
+
+    public function check_po_number_available( \WP_REST_Request $request ): \WP_REST_Response {
+        $po_number = sanitize_text_field( (string) $request->get_param( 'po_number' ) );
+        $available = '' !== $po_number && ! ZEXST_Purchase_Order_Manager::po_number_exists( $po_number, absint( $request->get_param( 'exclude_id' ) ) );
+
+        return new \WP_REST_Response( array( 'available' => $available ), 200 );
+    }
+
+    public function get_po( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $result = ZEXST_Purchase_Order_Manager::get_po( absint( $request->get_param( 'id' ) ) );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function create_po( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Purchase_Order_Manager::create_po( $request->get_params() );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 201 );
+    }
+
+    public function update_po( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Purchase_Order_Manager::update_po( absint( $request->get_param( 'id' ) ), $request->get_params() );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function delete_po( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Purchase_Order_Manager::delete_po( absint( $request->get_param( 'id' ) ) );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( array( 'deleted' => true ), 200 );
+    }
+
+    public function send_po( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Purchase_Order_Manager::send_po( absint( $request->get_param( 'id' ) ) );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function receive_po_items( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Purchase_Order_Manager::receive_po_items(
+            absint( $request->get_param( 'id' ) ),
+            (array) $request->get_param( 'items' ),
+            get_current_user_id()
+        );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 200 );
+    }
+
+    public function cancel_po( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
+        $rl = $this->check_rate_limit( get_current_user_id() );
+        if ( is_wp_error( $rl ) ) {
+            return $rl;
+        }
+
+        $result = ZEXST_Purchase_Order_Manager::cancel_po(
+            absint( $request->get_param( 'id' ) ),
+            get_current_user_id(),
+            (string) ( $request->get_param( 'reason' ) ?: '' )
+        );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return new \WP_REST_Response( $result, 200 );
+    }
 }
